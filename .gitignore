@@ -10,6 +10,7 @@ __pycache__/
 
 # Distribution / packaging
 DevOpsNOVI/
+thomasVenv/
 .Python
 build/
 develop-eggs/
