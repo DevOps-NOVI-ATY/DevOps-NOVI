@@ -8,7 +8,7 @@ import pyodbc
 import config
 
 # Verbindingsgegevens voor de PostgreSQL-database
-db_connection
+
 
 app = FastAPI()
 
@@ -18,7 +18,7 @@ async def read_root():
 
 @app.get("/get_data_from_db")
 async def get_data_from_db():
-    cursor = db_connection.cursor()
+    cursor = conn.cursor()
     cursor.execute("SELECT * FROM jouw_tabel_naam")
     data = cursor.fetchall()
     cursor.close()

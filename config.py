@@ -35,21 +35,24 @@ cursor = conn.cursor()
 def database_not_exists(database_name):
     try:
         cursor.execute(sql.SQL("SELECT 1 FROM pg_database WHERE datname = %s;"), (database_name,))
-        return cursor.fetchone() is not None
+        return cursor.fetchone() is None
     except psycopg2.Error as e:
         print(f"Error checking if database '{database_name}' exists: {e}")
         return False
-    
+
+#TEMP REMOVE FOR PROD
+cursor.execute(f"DROP DATABASE IF EXISTS {database};")
+cursor.execute(f"DROP USER IF EXISTS {username};")
+
 # Create a database
 if(database_not_exists(database)):
     cursor.execute(f"CREATE DATABASE {database};")
-
 
 #check if db exists
 def user_not_exists(username):
     try:
         cursor.execute(sql.SQL("SELECT 1 FROM pg_user WHERE usename = %s;"), (username,))
-        return cursor.fetchone() is not None
+        return cursor.fetchone() is None
     except psycopg2.Error as e:
         print(f"Error checking if user '{username}' exists: {e}")
         return False
@@ -74,7 +77,9 @@ cursor.close()
 conn.close()
 
 # Now, establish a connection to the newly created database
-conn = psycopg2.connect(dbname=database, user=username, password=userPassword, host=hostIp)
-conn.autocommit = True
-
-cursor = conn.cursor()
+try:
+    conn = psycopg2.connect(dbname=database, user=username, password=userPassword, host=hostIp)
+    conn.autocommit = True
+    cursor = conn.cursor()
+except psycopg2.Error as e:
+    print(f"Error: {e}")
