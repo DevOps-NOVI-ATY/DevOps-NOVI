@@ -59,7 +59,8 @@ def user_not_exists(username):
     
 # Create a user
 if(user_not_exists(username)):
-    cursor.execute(f"CREATE USER {username} WITH PASSWORD '{userPassword}';")
+    cursor.execute(f"CREATE USER {username};")
+    cursor.execute(f"ALTER USER {username} WITH ENCRYPTED PASSWORD '{userPassword}';")
 
 #check users and tables
 cursor.execute(f"SELECT * FROM pg_user;")
