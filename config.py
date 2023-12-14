@@ -27,28 +27,41 @@ port = os.getenv("PORT")
 
 conn = psycopg2.connect(dbname='postgres', user=superUser, password=superUserPW, host=hostIp)
 conn.autocommit = True
+
 # Create a cursor object to interact with the database
 cursor = conn.cursor()
 
-# Create a delte old database
-cursor.execute(f"DROP *;")
+#check if db exists
+def database_not_exists(database_name):
+    try:
+        cursor.execute(sql.SQL("SELECT 1 FROM pg_database WHERE datname = %s;"), (database_name,))
+        return cursor.fetchone() is not None
+    except psycopg2.Error as e:
+        print(f"Error checking if database '{database_name}' exists: {e}")
+        return False
+    
+# Create a database
+if(database_not_exists(database)):
+    cursor.execute(f"CREATE DATABASE {database};")
 
-# Create a delte old database
-cursor.execute(f"DROP USER {username};")
 
-# Create a new database
-cursor.execute(f"CREATE DATABASE {database};")
+#check if db exists
+def user_not_exists(username):
+    try:
+        cursor.execute(sql.SQL("SELECT 1 FROM pg_user WHERE usename = %s;"), (username,))
+        return cursor.fetchone() is not None
+    except psycopg2.Error as e:
+        print(f"Error checking if user '{username}' exists: {e}")
+        return False
+    
+# Create a user
+if(user_not_exists(username)):
+    cursor.execute(f"CREATE USER {username} WITH PASSWORD '{userPassword}';")
 
-# Create a new user
-cursor.execute(f"CREATE USER {username} WITH PASSWORD '{userPassword}';")
+#check users and tables
 cursor.execute(f"SELECT * FROM pg_user;")
 data = cursor.fetchall()
 print(data)
-
-cursor.execute(f"SELECT column_name, data_type, character_maximum_length FROM information_schema.columns WHERE table_name = 'pg_user';")
-data = cursor.fetchall()
-print(data)
-
 
 # Grant privileges to the user on the new database
 cursor.execute(f"GRANT ALL PRIVILEGES ON DATABASE {database} TO {username};")
