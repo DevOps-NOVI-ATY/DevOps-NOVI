@@ -1,0 +1,6 @@
+# requirements.txt
+fastapi[all] 
+uvicorn
+sqlalchemy
+pyodbc
+psycopg2
