@@ -4,3 +4,4 @@ uvicorn
 sqlalchemy
 pyodbc
 psycopg2
+pylint

@@ -1,14 +1,7 @@
-from fastapi import FastAPI, HTTPException
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
-
-from config import *
-
-# Configuratie van de database
-import pyodbc
-import config
+from fastapi import FastAPI
+from config import conn
 
 # Verbindingsgegevens voor de PostgreSQL-database
-
 
 app = FastAPI()
 
@@ -23,3 +16,4 @@ async def get_data_from_db():
     data = cursor.fetchall()
     cursor.close()
     return {"data": data}
+    
