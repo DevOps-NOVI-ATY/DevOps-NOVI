@@ -63,7 +63,7 @@ if(user_not_exists(username)):
     cursor.execute(f"ALTER USER {username} WITH ENCRYPTED PASSWORD '{userPassword}';")
 
 #check users and tables
-cursor.execute(f"SELECT * FROM pg_user;")
+cursor.execute("SELECT * FROM pg_user;")
 data = cursor.fetchall()
 print(data)
 
