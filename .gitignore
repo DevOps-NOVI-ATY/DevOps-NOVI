@@ -6,11 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-*.env
-
 # Distribution / packaging
-DevOpsNOVI/
-thomasVenv/
 .Python
 build/
 develop-eggs/
@@ -124,6 +120,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+ATY/
 .env
 .venv
 env/
