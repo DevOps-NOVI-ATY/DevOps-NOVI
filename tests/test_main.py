@@ -14,5 +14,3 @@ def test_status_code():
 def test_response():
     response = client.get("/")
     assert response.json() == {"greeting": "Hello world"}
-
-    
