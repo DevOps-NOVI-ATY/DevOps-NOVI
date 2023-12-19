@@ -1,18 +1,19 @@
-# Use the official Python base image
+# Gebruik basis image van Python3
 FROM python:3
 
+#Maak een folder aan
 RUN mkdir /app
-# Set the working directory inside the container
+
+# stel werk folder in van de container.
 WORKDIR /app
 
-# Copy the requirements file to the working directory
 COPY requirements.txt .
 
-# Install the Python dependencies
+# Installeer python pakketten
 RUN pip install -r requirements.txt
 
-# Copy the application code to the working directory ( COPY . . == COPY THIS DIRECTORY TO WORKDIR)
+# Kopieer deze folder naar Workdir ( COPY . . == COPY THIS DIRECTORY TO WORKDIR)
 COPY . .
 
-# Run the FastAPI application using uvicorn server
+# FastAPI runnen op een uvicorn server
 CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--port=8000"]
