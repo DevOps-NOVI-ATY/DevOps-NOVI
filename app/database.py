@@ -17,8 +17,4 @@ sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 if not database_exists(engine.url):
     create_database(engine.url)
 
-<<<<<<< HEAD:app/database.py
 Base.metadata.create_all(engine)
-=======
-
->>>>>>> c4fc457be48f37b5b0c8744000228d1e523d45f4:database.py
