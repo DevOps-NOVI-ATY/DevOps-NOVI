@@ -14,8 +14,3 @@ def test_status_code():
 def test_response():
     response = client.get("/")
     assert response.json() == {"greeting": "Hello world"}
-    
-def test_CI_implementation_test():
-    assert 1 == 2
-#change
-    
