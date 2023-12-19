@@ -25,3 +25,7 @@ jobs:
       - name: Run pytest
         run: |
           pytest
+
+      - name: Check pytest result
+        if: always()  # This ensures the step runs even if previous steps fail
+        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)    
