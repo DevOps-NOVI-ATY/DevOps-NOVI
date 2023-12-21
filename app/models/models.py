@@ -1,7 +1,6 @@
-from sqlalchemy.ext.declarative import declarative_base
 import sqlalchemy as sa
 from sqlalchemy import Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, declarative_base
 
 #basis klasse voor het aanmaken van een tabel
 Base = declarative_base()
@@ -12,6 +11,9 @@ stripboek_karakter = Table(
     sa.Column('stripboek_naam', sa.String, ForeignKey('stripboek.naam')),
     sa.Column('stripboek_issueNummer', sa.Integer, ForeignKey('stripboek.issueNummer')),
     sa.Column('karakter_naam', sa.String, ForeignKey('karakter.naam'))
+    
+    # Add both columns to form a unique foreign key reference
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
 )
 
 stripboek_coverSoort = Table(
@@ -19,6 +21,9 @@ stripboek_coverSoort = Table(
     sa.Column('stripboek_naam', sa.String, ForeignKey('stripboek.naam')),
     sa.Column('stripboek_issueNummer', sa.Integer, ForeignKey('stripboek.issueNummer')),
     sa.Column('coverSoort_naam', sa.String, ForeignKey('coverSoort.naam'))
+    
+    # Add both columns to form a unique foreign key reference
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
 )
 
 stripboek_serie = Table(
@@ -26,6 +31,9 @@ stripboek_serie = Table(
     sa.Column('stripboek_naam', sa.String, ForeignKey('stripboek.naam')),
     sa.Column('stripboek_issueNummer', sa.Integer, ForeignKey('stripboek.issueNummer')),
     sa.Column('serie_naam', sa.String, ForeignKey('serie.naam'))
+    
+    # Add both columns to form a unique foreign key reference
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
 )
 
 class stripboek(Base):
