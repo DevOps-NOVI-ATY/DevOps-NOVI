@@ -13,7 +13,7 @@ stripboek_karakter = Table(
     sa.Column('karakter_naam', sa.String, ForeignKey('karakter.naam'))
     
     # Add both columns to form a unique foreign key reference
-    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer', 'karakter_naam')
 )
 
 stripboek_coverSoort = Table(
@@ -23,7 +23,7 @@ stripboek_coverSoort = Table(
     sa.Column('coverSoort_naam', sa.String, ForeignKey('coverSoort.naam'))
     
     # Add both columns to form a unique foreign key reference
-    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer', 'karakter_naam')
 )
 
 stripboek_serie = Table(
@@ -33,7 +33,7 @@ stripboek_serie = Table(
     sa.Column('serie_naam', sa.String, ForeignKey('serie.naam'))
     
     # Add both columns to form a unique foreign key reference
-    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer')
+    sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer', 'karakter_naam')
 )
 
 class stripboek(Base):
