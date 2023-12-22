@@ -1,0 +1,49 @@
+name: dockerDev
+
+on:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          dockerfile: Dockerfile
+          context: .
+
+      - name: Build Docker image
+        run: docker build -t dockerDevOps .
+      
+      - name: Build Docker Compose
+        run: docker-compose -f docker-compose.yml up -d  
+
+      - name: Run pytest
+        run: |
+          pytest
+
+      - name: Check pytest result
+        if: always()  # This ensures the step runs even if previous steps fail
+        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)
+
+      - uses: actions/checkout@v3
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      
+      - name: Run API tests
+        run: |
+          postman collection run 31958413-1cb25a67-2a7b-42e8-bbe8-16bd8c1463ee  
