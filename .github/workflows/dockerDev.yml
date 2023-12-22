@@ -42,4 +42,4 @@ jobs:
       
       - name: Run API tests
         run: |
-          postman collection run 31958413-1cb25a67-2a7b-42e8-bbe8-16bd8c1463ee
+          docker run dockerdevops postman collection run 31958413-1cb25a67-2a7b-42e8-bbe8-16bd8c1463ee
