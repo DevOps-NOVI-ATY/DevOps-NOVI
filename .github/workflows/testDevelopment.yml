@@ -16,19 +16,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - uses: actions/checkout@v3
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      
-      - name: Run API tests
-        run: |
-          # Lint your API using Postman CLI
-          postman api lint e5b4ed5a-77a2-48e3-aa86-e9bde82de358 --integration-id 155264
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -50,4 +37,17 @@ jobs:
 
       - name: Check pytest result
         if: always()  # This ensures the step runs even if previous steps fail
-        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)    
+        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)
+
+        - uses: actions/checkout@v3
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      
+      - name: Run API tests
+        run: |
+          # Lint your API using Postman CLI
+          postman api lint e5b4ed5a-77a2-48e3-aa86-e9bde82de358 --integration-id 155264    
