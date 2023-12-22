@@ -78,9 +78,4 @@ cursor.close()
 conn.close()
 
 # Now, establish a connection to the newly created database
-try:
-    conn = psycopg2.connect(dbname=database, user=username, password=userPassword, host=hostIp)
-    conn.autocommit = True
-    cursor = conn.cursor()
-except psycopg2.Error as e:
-    print(f"Error: {e}")
+
