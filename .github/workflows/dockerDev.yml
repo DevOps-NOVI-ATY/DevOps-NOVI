@@ -23,3 +23,23 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t dockerfile .
+
+      - name: Run pytest
+        run: |
+          pytest
+
+      - name: Check pytest result
+        if: always()  # This ensures the step runs even if previous steps fail
+        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)
+
+      - uses: actions/checkout@v3
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      
+      - name: Run API tests
+        run: |
+          postman collection run 31958413-1cb25a67-2a7b-42e8-bbe8-16bd8c1463ee
