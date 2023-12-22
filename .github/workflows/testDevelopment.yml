@@ -33,7 +33,7 @@ jobs:
       
       - name: Start Uvicorn
         run: |
-          uvicorn main:app --reload
+          gunicorn -k uvicorn.workers.UvicornWorker
 
       - name: Run pytest
         run: |
