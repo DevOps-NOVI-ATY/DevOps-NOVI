@@ -22,11 +22,11 @@ jobs:
           python-version: 3.11
 
       - name: Build Docker image
-        run: docker build -t dockerfile .
+        run: docker build -t dockerDevOps .
 
       - name: Run pytest
         run: |
-          pytest
+          docker run dockerDevOps pytest
 
       - name: Check pytest result
         if: always()  # This ensures the step runs even if previous steps fail
