@@ -1,6 +1,9 @@
 # Stage 1: Build stage
 FROM python:3 AS builder
 
+#Maak een folder aan
+RUN mkdir /api
+
 # Create a folder for the application
 WORKDIR /api
 
@@ -25,7 +28,7 @@ ARG POSTMAN_API_KEY_ARG
 ENV POSTMAN_API_KEY=$POSTMAN_API_KEY_ARG
 
 # Run Postman login
-RUN postman login --apikey $POSTMAN_API_KEY
+RUN postman login --with-api-apikey $POSTMAN_API_KEY
 
 # Stage 3: Final stage
 FROM python:3
