@@ -21,9 +21,11 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: compose Docker image
-        run: |
-          docker compose up --build
+      - name: Build Docker image
+        run: docker build -t dockerdevops
+
+      - name: Run Docker container
+        run: docker run dockerdevops
       
       - name: run test postman
         run: |
