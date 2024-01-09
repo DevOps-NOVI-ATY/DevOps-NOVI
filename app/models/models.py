@@ -35,7 +35,6 @@ stripboek_serie = Table(
     # Add both columns to form a unique foreign key reference
     sa.PrimaryKeyConstraint('stripboek_naam', 'stripboek_issueNummer', 'karakter_naam')
 )
-
 class stripboek(Base):
     __tablename__ = "stripboek"
 
