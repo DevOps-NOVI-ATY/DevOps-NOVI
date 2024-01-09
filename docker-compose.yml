@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: user-name
       POSTGRES_PASSWORD: strong-password
-      POSTGRES_DB: api
+      POSTGRES_DB: api #DB KAN GEDEFINIEERD WORDEN.
     volumes:
       - local_pgdata:/var/lib/postgresql/data
   
@@ -33,7 +33,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/app
+      - .:/api
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/test
 
