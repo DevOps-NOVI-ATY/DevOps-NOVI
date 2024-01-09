@@ -10,7 +10,6 @@ services:
       POSTGRES_USER: user-name
       POSTGRES_PASSWORD: strong-password
       POSTGRES_DB: api #DB KAN GEDEFINIEERD WORDEN.
-      DATABASE_URL: postgresql://user-name:strong-password@db/tapi
     volumes:
       - local_pgdata:/var/lib/postgresql/data
   
@@ -35,7 +34,7 @@ services:
     volumes:
       - .:/api
     environment:
-      DATABASE_URL: postgresql://user-name:strong-password@db/tapi
+      DATABASE_URL: postgresql://user-name:strong-password@db/test
 
 volumes:
   local_pgdata:
