@@ -22,7 +22,7 @@ jobs:
           python-version: 3.11
 
       - name: compose Docker image
-        run: docker compose up
+        run: docker compose up --build-arg POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }} .
 
      # - name: Build Docker image
      #   run: docker build -t dockerdevops --build-arg POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }} .
