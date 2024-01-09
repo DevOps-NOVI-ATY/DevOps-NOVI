@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 # Kopieer deze folder naar Workdir ( COPY . . == COPY THIS DIRECTORY TO WORKDIR)
 COPY . .
 
-# Run FastAPI with Gunicorn in the background
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8000"]
+
+# FastAPI runnen op een uvicorn server
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
