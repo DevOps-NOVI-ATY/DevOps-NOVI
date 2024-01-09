@@ -20,6 +20,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t dockerdevops
 
+      - name: Run Docker container
+        run: docker run dockerdevops
+
     #- name: Analysing the code with pylint
     #  run: |
     #    pylint --fail-under=8 $(git ls-files '*.py')
