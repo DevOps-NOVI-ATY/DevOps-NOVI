@@ -21,11 +21,10 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Build and Run Docker Compose
+      - name: compose Docker image
         env:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-        run: |
-          docker-compose up --build
+        run: docker compose up --build
 
      # - name: Build Docker image
      #   run: docker build -t dockerdevops --build-arg POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }} .
