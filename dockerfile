@@ -19,8 +19,11 @@ COPY . .
 RUN curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
 
 # Set environment variable for Postman API key
-ARG POSTMAN_API_KEY
-ENV POSTMAN_API_KEY=${POSTMAN_API_KEY}
+# ARG instruction to declare a build argument
+ARG POSTMAN_API_KEY_ARG
+
+# Use the build argument in your Dockerfile as needed
+ENV POSTMAN_API_KEY=$POSTMAN_API_KEY_ARG
 
 # Run Postman login
 RUN postman login --with-api-key $POSTMAN_API_KEY
