@@ -35,6 +35,7 @@ services:
       - .:/api
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/test
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 volumes:
   local_pgdata:
