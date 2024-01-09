@@ -27,12 +27,6 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
-  postman:
-    build:
-      context: .
-      args:
-        - POSTMAN_API_KEY_ARG=${POSTMAN_API_KEY}
-
   api:
     build:
       context: .
