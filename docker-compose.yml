@@ -27,6 +27,12 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
+  postman:
+    build:
+      context: .
+      args:
+        - POSTMAN_API_KEY=${POSTMAN_API_KEY}
+
   api:
     build:
       context: .
@@ -38,11 +44,7 @@ services:
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/tapi
 
-  postman:
-    build:
-      context: .
-      args:
-        - POSTMAN_API_KEY=${POSTMAN_API_KEY}
+  
 
 volumes:
   local_pgdata:
