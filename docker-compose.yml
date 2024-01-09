@@ -31,7 +31,7 @@ services:
     build:
       context: .
       args:
-        - POSTMAN_API_KEY=${POSTMAN_API_KEY}
+        - POSTMAN_API_KEY_ARG=${POSTMAN_API_KEY}
 
   api:
     build:
