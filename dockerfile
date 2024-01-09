@@ -2,10 +2,10 @@
 FROM python:3
 
 #Maak een folder aan
-RUN mkdir /app
+RUN mkdir /api
 
 # stel werk folder in van de container.
-WORKDIR /app
+WORKDIR /api
 
 COPY requirements.txt .
 
@@ -16,4 +16,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # FastAPI runnen op een uvicorn server
-CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--port=8000"]
+CMD ["uvicorn", "app.main:app", "--host=0.0.0.0", "--port=8000"]

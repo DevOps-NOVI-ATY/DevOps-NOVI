@@ -2,8 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 from sqlalchemy_utils import database_exists, create_database
-from models import Base
-from app.database import engine
+from app.models.models import Base
 
 
 #Haal db url uit environment variable. Deze is ingesteld in docker-compose.yml
@@ -17,4 +16,5 @@ sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 if not database_exists(engine.url):
     create_database(engine.url)
 
+#maak de tabellen aan die gedefinieerd zijn in models.py
 Base.metadata.create_all(engine)
