@@ -12,4 +12,9 @@ async def root():
 #GET request naar zoekStrip van endpoint karakter met een karakternaam in path
 @router.get("/zoekstrip/{karakterNaam}")
 async def zoekStripsBijKarakter(karakterNaam):
-    return serviceFunctions.zoekStipboekBijKarakter(karakterNaam)
+    return serviceFunctions.zoekStripboekBijKarakter(karakterNaam)
+
+#GET request naar zoekstripvolgorde van endpoint karakter met een karakternaam in path
+@router.get("/zoekstripvolgorde/{karakterNaam}")
+async def zoekStripVolgordeBijKarakter(karakterNaam):
+    return serviceFunctions.zoekStripVolgordeBijKarakter(karakterNaam)
