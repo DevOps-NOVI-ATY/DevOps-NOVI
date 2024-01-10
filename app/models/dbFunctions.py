@@ -2,6 +2,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
 
+def startSession(engine):
+    Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    try: 
+        session = Session()
+        return session
+    except SQLAlchemyError as e:
+        print(f"An error occurred: {e}")
+
 def startSession():
     from ..database import engine
     Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -21,7 +29,7 @@ def commitAndCloseSession(session):
 
 def closeSession(session):
     try: 
-        session.close
+        session.close()
     except SQLAlchemyError as e:
         print(f"An error occurred: {e}")
 

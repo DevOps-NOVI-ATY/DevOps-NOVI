@@ -3,7 +3,9 @@ from .dbFunctions import startSession, commitAndCloseSession
 
 
 def populateDatabase(engine):
-    session = startSession()
+    session = startSession(engine)
+    print('JAAAAAAAAAAAAAAAAAAA')
+    print(session)
     # 1. Add records to the Uitgever table
     marvel = Uitgever(naam='Marvel Comics')
     session.add(marvel)

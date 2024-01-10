@@ -1,13 +1,12 @@
 from fastapi import FastAPI
 from app.routers import karakter
+from app.database import createDB
 
-import app.database
-
+createDB()
 app = FastAPI()
 
 #Voeg router van endpoint karakter toe
 app.include_router(karakter.router)
-
 
 #GET request naar root endpoint.
 @app.get("/")
