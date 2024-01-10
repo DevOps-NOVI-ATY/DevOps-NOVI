@@ -1,10 +1,9 @@
 from .models import Uitgever, Serie, Stripboek, Karakter, Cover_soort, Serie_strip, Strip_kar, Strip_cover
-from sqlalchemy.orm import sessionmaker
+from .dbFunctions import startSession, commitAndCloseSession
 
 
 def populateDatabase(engine):
-    Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    session = Session()
+    session = startSession()
     # 1. Add records to the Uitgever table
     marvel = Uitgever(naam='Marvel Comics')
     session.add(marvel)
@@ -19,7 +18,22 @@ def populateDatabase(engine):
     spidermanHulk = Serie(naam='Amazing Spider-Man Dallas Times Herald Giveaway', serieGrootte=5, uitgever=marvel)
     session.add(spidermanHulk)
 
-    # 3. Add records to the Stripboek table
+    # 3. Add records to the Karakter table
+    spiderman = Karakter(naam='spiderman')
+    session.add(spiderman)
+    
+    hulk = Karakter(naam='hulk')
+    session.add(hulk)
+
+    # 4. Add records to the Cover_soort table
+    hardCover = Cover_soort(naam='hardCover')
+    session.add(hardCover)
+
+    softCover = Cover_soort(naam='softCover')
+    session.add(softCover)
+
+
+    # 5. Add records to the Stripboek table
     spiderman5MinStrip = Stripboek(naam='5 Minute Spider-Man Stories HC', issueNummer=1, Uitgavedatum='2017-06-21', paginas=192, prijs=12.99)
     spiderman5MinStrip.series.append(spiderman5min)  # Link the stripboek to the serie
     spiderman5MinStrip.karakters.append(spiderman)
@@ -58,20 +72,5 @@ def populateDatabase(engine):
     spidermanHulkStrip2.covers.append(softCover)
     session.add(spidermanHulkStrip2)
 
-    # 4. Add records to the Karakter table
-    spiderman = Karakter(naam='spiderman')
-    session.add(spiderman)
-    
-    hulk = Karakter(naam='hulk')
-    session.add(hulk)
-
-    # 5. Add records to the Cover_soort table
-    hardCover = Cover_soort(naam='hardCover')
-    session.add(hardCover)
-
-    softCover = Cover_soort(naam='softCover')
-    session.add(softCover)
-
-
     # Commit the changes to the database
-    session.commit()
+    commitAndCloseSession(session)
