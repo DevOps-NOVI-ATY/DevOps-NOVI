@@ -27,9 +27,9 @@ def closeSession(session):
 def runSelectStatement(statement):
     session = startSession()
 
-    result_objects  = session.execute(statement).fetchall()
+    result_objects = session.execute(statement).fetchall()
 
-    # Use SQLAlchemy's built-in to_dict() method to convert the objects to dictionaries
+    # Use SQLAlchemy's built-in _asdict() method to convert the objects to dictionaries
     result_dicts = [row._asdict() for row in result_objects]
     
     closeSession(session)
