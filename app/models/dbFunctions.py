@@ -27,13 +27,14 @@ def closeSession(session):
 def runSelectStatement(statement):
     session = startSession()
 
-    resultObjects = []
-    for result in session.scalars(statement):
-        resultObjects.append(result)
+    result_objects  = session.execute(statement).fetchall()
 
+    # Use SQLAlchemy's built-in to_dict() method to convert the objects to dictionaries
+    result_dicts = [row._asdict() for row in result_objects]
+    
     closeSession(session)
 
-    return resultObjects
+    return result_dicts
 
 def runInsertStatement(insertableObject):
     session = startSession()
