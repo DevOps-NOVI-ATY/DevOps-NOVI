@@ -1,12 +1,12 @@
 name: dockerDev
 
-# on:
-#  pull_request:
-#    branches:
-#      - development
-#  push:
-#    branches:
-#      - development
+ on:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - development
 
 jobs:
   build:
@@ -23,11 +23,15 @@ jobs:
 
       - name: compose Docker image
         run: |
-          docker compose up --build
-      
-      - name: run test postman
+          docker compose up --build -d
+
+      - name: docker logs
         run: |
-          docker run -t postman/newman_alpine33 run https://www.getpostman.com/collections/8a0c9bc08f062d12dcda
+          docker logs --tail=200
+      
+     # - name: run test postman
+     #   run: |
+     #     docker run -t postman/newman_alpine33 run https://www.getpostman.com/collections/8a0c9bc08f062d12dcda
 
      # - name: Build Docker image
      #   run: docker build -t dockerdevops --build-arg POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }} .
