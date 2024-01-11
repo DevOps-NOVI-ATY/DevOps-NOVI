@@ -7,21 +7,21 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 
-serie_strip = Table(
+Serie_strip = Table(
     'serie_strip',
     Base.metadata,
     sa.Column('serie', ForeignKey('serie.naam'), primary_key=True),
     sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),    
 )
 
-strip_kar = Table(
+Strip_kar = Table(
     'strip_kar',
     Base.metadata,
     sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),
     sa.Column('karakter', ForeignKey('karakter.naam'), primary_key=True),    
 )
 
-strip_cover = Table(
+Strip_cover = Table(
     'strip_cover',
     Base.metadata,
     sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),
@@ -30,24 +30,24 @@ strip_cover = Table(
 
 
 # Define the uitgever class
-class uitgever(Base):
+class Uitgever(Base):
     __tablename__ = "uitgever"
 
     naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    series = relationship("serie", back_populates="uitgever")
+    series = relationship("Serie", back_populates="uitgever")
 
       
-class serie(Base):
+class Serie(Base):
     __tablename__ = "serie"
 
     naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
     serieGrootte = sa.Column(sa.Integer)
     uitgever_naam = sa.Column(sa.String, ForeignKey("uitgever.naam"))
-    uitgever = relationship("uitgever", back_populates="serie")
-    stripboeken = relationship('stripboek', secondary='serie_strip', back_populates='serie')
+    uitgever = relationship("Uitgever", back_populates="series")
+    stripboeken = relationship('Stripboek', secondary='serie_strip', back_populates='series')
 
 
-class stripboek(Base):
+class Stripboek(Base):
     __tablename__ = "stripboek"
 
     naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
@@ -55,23 +55,23 @@ class stripboek(Base):
     Uitgavedatum = sa.Column(sa.Date, nullable=False)
     paginas = sa.Column(sa.Integer)
     prijs = sa.Column(sa.Float)
-    series = relationship('serie', secondary='serie_strip', back_populates='stripboek')
-    karakters = relationship('karakter', secondary='strip_kar', back_populates='stripboek')
-    covers = relationship('cover_soort', secondary='strip_cover', back_populates='stripboek')
+    series = relationship('Serie', secondary='serie_strip', back_populates='stripboeken')
+    karakters = relationship('Karakter', secondary='strip_kar', back_populates='stripboeken')
+    covers = relationship('Cover_soort', secondary='strip_cover', back_populates='stripboeken')
 
 
 
-class karakter(Base):
+class Karakter(Base):
     __tablename__ = "karakter"
 
     naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    stripboeken = relationship('stripboek', secondary='strip_kar', back_populates='karakter')
+    stripboeken = relationship('Stripboek', secondary='strip_kar', back_populates='karakters')
 
 
-class cover_soort(Base):
+class Cover_soort(Base):
     __tablename__ = "cover_soort"
 
     naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    stripboeken = relationship('stripboek', secondary='strip_cover', back_populates='cover_soort')
+    stripboeken = relationship('Stripboek', secondary='strip_cover', back_populates='covers')
 
 
