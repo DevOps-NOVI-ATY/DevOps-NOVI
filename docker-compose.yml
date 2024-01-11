@@ -12,6 +12,9 @@ services:
       POSTGRES_DB: api #DB KAN GEDEFINIEERD WORDEN.
     volumes:
       - local_pgdata:/var/lib/postgresql/data
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready"]
+    
 
   
   
@@ -38,7 +41,8 @@ services:
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/api
     depends_on:
-      - db
+      db:
+        condition: service_started
 
 
 volumes:
