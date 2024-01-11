@@ -3,6 +3,7 @@ from app.routers import karakter
 
 import app.database
 
+
 app = FastAPI()
 
 #Voeg router van endpoint karakter toe
