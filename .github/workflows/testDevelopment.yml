@@ -27,7 +27,7 @@ jobs:
 
       - name: docker logs
         run: |
-          docker logs --tail=200
+          docker logs --tail
       
      # - name: run test postman
      #   run: |
