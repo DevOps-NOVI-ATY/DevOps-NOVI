@@ -1,4 +1,4 @@
-version: "1"
+version: "3"
 services:
   db:
     image: postgres
@@ -12,6 +12,7 @@ services:
       POSTGRES_DB: api #DB KAN GEDEFINIEERD WORDEN.
     volumes:
       - local_pgdata:/var/lib/postgresql/data
+
   
   
   pgadmin:
@@ -36,6 +37,8 @@ services:
       - .:/api
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/api
+    depends_on:
+      - db
 
 
 volumes:
