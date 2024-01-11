@@ -27,7 +27,7 @@ jobs:
   
       - name: Run pytest
         run: |
-          pytest
+          docker run pytest
 
       - name: Check pytest result
         if: always()  # This ensures the step runs even if previous steps fail
