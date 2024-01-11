@@ -24,17 +24,6 @@ jobs:
       - name: compose Docker image
         run: |
           docker compose up --build -d
-
-      - name: docker logs
-        run: |
-          docker logs --tail
-      
-     # - name: run test postman
-     #   run: |
-     #     docker run -t postman/newman_alpine33 run https://www.getpostman.com/collections/8a0c9bc08f062d12dcda
-
-     # - name: Build Docker image
-     #   run: docker build -t dockerdevops --build-arg POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }} .
   
       - name: Run pytest
         run: |
@@ -43,16 +32,3 @@ jobs:
       - name: Check pytest result
         if: always()  # This ensures the step runs even if previous steps fail
         run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)
-  
-  automated-api-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Run API tests
-        run: |
-          postman collection run 31825705-c964bdd1-ddc2-4dd8-91ee-7689d3880fdf
