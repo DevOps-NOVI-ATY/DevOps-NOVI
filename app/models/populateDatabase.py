@@ -1,5 +1,9 @@
 from .models import Uitgever, Serie, Stripboek, Karakter, Cover_soort, Serie_strip, Strip_kar, Strip_cover
-from .dbFunctions import startSession, commitAndCloseSession
+from .dbFunctions import startSession, commitAndCloseSession, runSelectStatement
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import select
+import csv
+
 
 
 def populateDatabase(engine):
@@ -74,3 +78,123 @@ def populateDatabase(engine):
 
     # Commit the changes to the database
     commitAndCloseSession(session)
+
+'''
+-------------------------------------------------------------------
+|                                                                  |
+-------------------------------------------------------------------
+'''
+#populate DB door csv file dat gegenereerd is door chatgpt
+#CSV format: uitgever|serienaam|seriegrootte|Stripboeknaam|issuenummer|uitgavedatum|paginas|prijs|karakternaam|coversoort
+
+def csv_to_db(csv_file):
+
+    # database connectie openen
+    session = startSession()
+
+    #csv bestand openen
+    with open(csv_file) as file:
+
+        #De header overslaan
+        heading = next(file)
+
+        #bestand omzetten naar een lees object om vervolgens te itereren
+        reader = csv.reader(file, delimiter="|")
+
+        #lijsten om objecten te onthouden, voor latere referenties
+        uitgever_list = []
+        serie_list = []
+        karakter_list = []
+        cover_list = []
+
+        #database aanvullen met elke rij uit csv bestand
+        for row in reader:
+
+
+            #vul database aan als uitgever niet voorkomt
+            if runSelectStatement(select(Uitgever).where(Uitgever.naam == row[0])) == []:
+                uitgever =  Uitgever(naam=row[0])
+                #onthoudt uitgever object
+                uitgever_list.append(uitgever)
+                session.add(uitgever)
+
+            
+            
+            #vul database aan als serie niet voorkomt
+            if runSelectStatement(select(Serie).where(Serie.naam == row[1])) == []:
+                #zoek uitgever object op om vervolgens te linken met serie.
+                for uitg in uitgever_list:
+                    if uitg.naam == row[0]:
+                        serie = Serie(naam=row[1], serieGrootte=int(row[2]), uitgever=uitg)
+                        break
+                #onthoudt serie object
+                serie_list.append(serie)
+                session.add(serie)
+
+
+            
+            #vul database aan als karakter niet voorkomt
+            if runSelectStatement(select(Karakter).where(Karakter.naam == row[8])) == []:
+                karakter = Karakter(naam=row[8])
+                #onthoudt karakter object
+                karakter_list.append(karakter)
+                session.add(karakter)
+
+            
+            
+            #vul database aan als cover niet voorkomt
+            if runSelectStatement(select(Cover_soort).where(Cover_soort.naam == row[9])) == []:
+                cover = Cover_soort(naam=row[9])
+                #onthoudt cover object
+                cover_list.append(cover)
+                session.add(cover)
+
+
+            # zet prijs om in float. als er value error ontstaat, haal dan prefix weg.
+            try:
+                prijs = float(row[7])
+            except ValueError:
+                prijs = float(row[7][1:])
+            
+
+            ##vul database aan als stripboek niet voorkomt
+            if runSelectStatement(select(Stripboek).where(Stripboek.naam == row[3])) == []:
+                
+                #haal serie object op
+                for ser in serie_list:
+                    if ser.naam == row[1]:
+                        serie_obj = ser
+                
+                #haal karakter object op
+                for kar in karakter_list:
+                    if kar.naam == row[8]:
+                        karakter_obj = kar
+                
+                #haal cover object op
+                for cov in cover_list:
+                    if cov.naam == row[9]:
+                        cover_obj = cov
+
+                
+                stripboek = Stripboek(naam=row[3], issueNummer=int(row[4]), Uitgavedatum=row[5], paginas=int(row[6]), prijs=prijs)
+                stripboek.series.append(serie_obj)
+                stripboek.karakters.append(karakter_obj)
+                stripboek.covers.append(cover_obj)
+                session.add(stripboek)
+            
+            
+            # commit database aanvullingen, maar sluit connectie nog niet
+            try:
+                session.commit()
+            except SQLAlchemyError as e:
+                print(f"An error occurred: {e}")
+
+
+    # sluit db connectie
+    session.close()
+
+'''
+-------------------------------------------------------------------
+|                                                                  |
+-------------------------------------------------------------------
+'''

@@ -18,3 +18,6 @@ async def zoekStripsBijKarakter(karakterNaam):
 @router.get("/zoekstripvolgorde/{karakterNaam}")
 async def zoekStripVolgordeBijKarakter(karakterNaam):
     return serviceFunctions.zoekStripVolgordeBijKarakter_Py(karakterNaam)
+
+#GET request naar zoekSerie van endpoint karakter met een karakternaam in path
+

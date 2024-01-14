@@ -10,10 +10,13 @@ from ..models.models import Uitgever, Serie, Stripboek, Karakter, Cover_soort, S
 -------------------------------------------------------------------
 '''
 #zoekfuncties uitgevoerd door DB
+
+#haal alle karakters op
 def zoekKarakters():
     stmt = select(Karakter)
     return runSelectStatement(stmt)
 
+#Haal alle stripboeken gefilterd op karakternaam op
 def zoekStripboekBijKarakter(karakterNaam):
     stmt = select(Stripboek, Serie, Uitgever, Cover_soort)\
         .join(Stripboek.karakters)\
@@ -23,6 +26,7 @@ def zoekStripboekBijKarakter(karakterNaam):
     #print(stmt)
     return runSelectStatement(stmt)
 
+#Haal alle stripboeken gefilterd op karakternaam op en sorteer deze op uitgavedatum
 def zoekStripVolgordeBijKarakter(karakterNaam):
     stmt = select(Stripboek, Serie, Uitgever, Cover_soort)\
         .join(Stripboek.karakters)\
@@ -31,6 +35,18 @@ def zoekStripVolgordeBijKarakter(karakterNaam):
         .where(Karakter.naam == karakterNaam)\
         .order_by(Stripboek.Uitgavedatum.asc())
     #print(stmt)
+    return runSelectStatement(stmt)
+
+
+#Haal alle series op
+def zoekSeries():
+    stmt = select(Serie)
+    return runSelectStatement(stmt)
+
+
+#Haal alle uitgevers op
+def zoekUitgevers():
+    stmt = select(Uitgever)
     return runSelectStatement(stmt)
 
 
@@ -112,6 +128,11 @@ def zoekStripVolgordeBijKarakter_Py(karakterNaam):
     gesorteerde_res = sorted(resultaat, key= lambda i: i["Uitgavedatum"])
 
     return gesorteerde_res
+
+
+
+    
+
 
 '''
 -------------------------------------------------------------------
