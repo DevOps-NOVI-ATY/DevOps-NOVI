@@ -4,20 +4,24 @@ from app.models.models import Base
 import os
 
 
-SQLALCHEMY_DATABASE_URL = os.environ['DATABASE_URL']
+SQLALCHEMY_DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
 
 #Maak een connection engine aan
 from sqlalchemy import create_engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 #Controle op db. als het niet bestaat, maakt het de db aan.
-from app.models.populateDatabase import populateDatabase
+from app.models.populateDatabase import populateDatabase, csv_to_db
 
 if not database_exists(engine.url):
     create_database(engine.url)
     
 #maak de tabellen aan die gedefinieerd zijn in models.py
 Base.metadata.create_all(engine)
-populateDatabase(engine)    
 
-    
+#database hardcoded aanvullen
+#populateDatabase(engine) 
+
+#database aanvullen met csv file
+csv_to_db("app/models/dataset.csv")
+

@@ -1,15 +1,17 @@
 from fastapi import FastAPI
-from app.routers import karakter
+from app.routers import karakter, serie, uitgever
 import app.database
 
 
 app = FastAPI()
 
-#Voeg router van endpoint karakter toe
+#Voeg routers toe
 app.include_router(karakter.router)
+app.include_router(serie.router)
+app.include_router(uitgever.router)
 
 #GET request naar root endpoint.
 @app.get("/")
 async def root():
-    return {"greeting":"Hello world this is the new file"}
+    return "NOVI - Comic books API"
 
