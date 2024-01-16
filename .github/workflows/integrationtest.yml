@@ -19,10 +19,15 @@ jobs:
           POSTGRES_USER: user-name
           POSTGRES_PASSWORD: strong-password
           POSTGRES_DB: api
+        volumes:
+          - local_pgdata:/var/lib/postgresql/data
         ports:
           - "5432:5432"
-        options: --health-cmd "pg_isready" --health-interval 10s --health-timeout 5s --health-retries 5
-
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready"]
+          interval: 5s
+          timeout: 5s
+          retries: 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -31,16 +36,20 @@ jobs:
         run: |
           docker build -t api-test -f dockerfiletesting .
           docker run -d --name api-container -p 8000:8000 --network=host api-test
-      
-      -name: check database healty
-        healthcheck:
-          test: ["CMD-SHELL", "pg_isready"]
-          interval: 5s
-          timeout: 5s
-          retries: 5
 
       - name: Wait for API to be ready
         run: docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'
+
+      - name: Debug PostgreSQL Logs
+        run: docker logs <postgres-container-name>
+
+      - name: Debug API Logs
+        run: docker logs api-container
+
+      - name: Debug Database Connection
+        run: |
+          docker exec api-container sh -c 'pg_isready -h db -U user-name -d api'
+          docker exec api-container sh -c 'psql -h db -U user-name -d api -c "SELECT * FROM your_table;"'
 
       - name: Run Pytest
         run: docker exec api-container sh -c 'pytest tests/'
