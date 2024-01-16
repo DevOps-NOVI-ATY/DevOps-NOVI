@@ -1,5 +1,5 @@
 # Gebruik basis image van Python3
-FROM python:3.10.13
+FROM python:3.10.13-slim
 
 #Maak een folder aan
 RUN mkdir /api
