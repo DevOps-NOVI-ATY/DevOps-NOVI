@@ -1,0 +1,27 @@
+# Use a base image with Python3 and Supervisor
+FROM python:3
+
+# Create a folder for the API
+RUN mkdir /api
+
+# Set the working directory
+WORKDIR /api
+
+# Copy the requirements file
+COPY requirements.txt .
+
+# Install Python packages
+RUN pip install -r requirements.txt
+
+# Copy the application code
+COPY . .
+
+# Set up Supervisor to run the API and database
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose the necessary ports
+EXPOSE 8000
+EXPOSE 5432
+
+# Start Supervisor
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
