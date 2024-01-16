@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..services import serviceFunctions
 
 #maak router aan voor endpoint uitgever
-router = APIRouter(prefix='/uitgever')
+router = APIRouter(prefix='/uitgevers')
 
 #GET request naar root van endpoint uitgever
 @router.get('/')
