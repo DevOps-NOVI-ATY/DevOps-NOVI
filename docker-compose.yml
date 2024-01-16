@@ -9,9 +9,14 @@ services:
     environment:
       POSTGRES_USER: user-name
       POSTGRES_PASSWORD: strong-password
-      POSTGRES_DB: api #DB KAN GEDEFINIEERD WORDEN.
+      POSTGRES_DB: api
     volumes:
       - local_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   
   
   pgadmin:
@@ -36,6 +41,10 @@ services:
       - .:/api
     environment:
       DATABASE_URL: postgresql://user-name:strong-password@db/api
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
 
 
 volumes:
