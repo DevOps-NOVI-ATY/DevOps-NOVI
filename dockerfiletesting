@@ -23,10 +23,5 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 8000
 EXPOSE 5432
 
-# Install Supervisor
-RUN apt-get update && \
-    apt-get install -y supervisor && \
-    rm -rf /var/lib/apt/lists/*
-
 # Start Supervisor
 CMD ["/usr/bin/supervisord",  "-c", "/etc/supervisor/conf.d/supervisord.conf"]
