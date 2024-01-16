@@ -36,17 +36,6 @@ jobs:
       - name: Wait for API to be ready
         run: docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'
 
-      - name: Debug PostgreSQL Logs
-        run: docker logs <postgres-container-name>
-
-      - name: Debug API Logs
-        run: docker logs api-container
-
-      - name: Debug Database Connection
-        run: |
-          docker exec api-container sh -c 'pg_isready -h db -U user-name -d api'
-          docker exec api-container sh -c 'psql -h db -U user-name -d api -c "SELECT * FROM your_table;"'
-
       - name: Run Pytest
         run: docker exec api-container sh -c 'pytest tests/'
 

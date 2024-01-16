@@ -28,8 +28,5 @@ RUN apt-get update && \
     apt-get install -y supervisor && \
     rm -rf /var/lib/apt/lists/*
 
-# Find the path to supervisord
-RUN which supervisord
-
 # Start Supervisor
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord",  "-c", "/etc/supervisor/conf.d/supervisord.conf"]
