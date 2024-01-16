@@ -13,4 +13,4 @@ def test_status_code():
 
 def test_response():
     response = client.get("/")
-    assert response.json() == {"greeting":"Hello world this is the new file"}
+    assert response.json() == {'NOVI - Comic books API'}
