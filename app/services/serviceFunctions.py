@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, distinct
 from ..models.dbFunctions import runSelectStatement
 from ..models.models import Uitgever, Serie, Stripboek, Karakter, Cover_soort, Serie_strip, Strip_kar, Strip_cover
 
@@ -18,23 +18,27 @@ def zoekKarakters():
 
 #Haal alle stripboeken gefilterd op karakternaam op
 def zoekStripboekBijKarakter(karakterNaam):
-    stmt = select(Stripboek, Serie, Uitgever, Cover_soort)\
-        .join(Stripboek.karakters)\
-        .join(Stripboek.covers)\
-        .join(Stripboek.series)\
+    stmt = (
+        select(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
+        .join(Stripboek.karakters)
+        .join(Stripboek.covers)
+        .join(Stripboek.series)
+        .distinct(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
         .where(Karakter.naam == karakterNaam)
-    #print(stmt)
+    )
+
     return runSelectStatement(stmt)
 
 #Haal alle stripboeken gefilterd op karakternaam op en sorteer deze op uitgavedatum
 def zoekStripVolgordeBijKarakter(karakterNaam):
-    stmt = select(Stripboek, Serie, Uitgever, Cover_soort)\
-        .join(Stripboek.karakters)\
-        .join(Stripboek.covers)\
-        .join(Stripboek.series)\
-        .where(Karakter.naam == karakterNaam)\
+    stmt = (select(Stripboek, Serie, Uitgever, Cover_soort)
+        .join(Stripboek.karakters)
+        .join(Stripboek.covers)
+        .join(Stripboek.series)
+        .distinct(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
+        .where(Karakter.naam == karakterNaam)
         .order_by(Stripboek.Uitgavedatum.asc())
-    #print(stmt)
+    )
     return runSelectStatement(stmt)
 
 
