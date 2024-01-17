@@ -38,7 +38,7 @@ jobs:
 
       - name: Run Pytest
         run: |
-         touch supervisord.conf
+          touch supervisord.conf
           cat > supervisord.conf << EOL
           [supervisord]
 
