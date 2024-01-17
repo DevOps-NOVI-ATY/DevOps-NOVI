@@ -27,7 +27,7 @@ jobs:
   
       - name: Run pytest
         run: |
-          docker exec -t pytest
+          pytest
 
       - name: Check pytest result
         if: always()  # This ensures the step runs even if previous steps fail
