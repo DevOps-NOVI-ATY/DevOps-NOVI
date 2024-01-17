@@ -38,8 +38,7 @@ jobs:
 
       - name: Run Pytest
         run: |
-          pip install supervisor
-          pip install pytest
+          pip install requirements.txt
           
           touch supervisord.conf
           cat > supervisord.conf << EOL
