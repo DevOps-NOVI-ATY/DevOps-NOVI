@@ -23,7 +23,7 @@ jobs:
 
       - name: Compose Docker image
         run: |
-          docker-compose up --build -d
+          docker compose up --build -d
 
       - name: Run pytest
         run: |
