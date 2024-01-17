@@ -38,7 +38,20 @@ jobs:
 
       - name: Run Pytest
         run: |
-          touch supervisord.conf
+          cat > supervisord.conf << EOL
+          [supervisord]
+
+          [fcgi-program:uvicorn]
+          socket=tcp://localhost:8000
+          command=/opt/hostedtoolcache/Python/3.10.13/x64/bin/uvicorn --fd 0 app.main:app
+          numprocs=4
+          process_name=uvicorn-%(process_num)d
+          stdout_logfile=/dev/stdout
+          stdout_logfile_maxbytes=0
+          EOL
+          supervisord
+          sleep 3
+          pytest
 
       - name: Cleanup
         run: |
