@@ -1,0 +1,40 @@
+name: unittestDevelopment
+
+on:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - development
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Create and activate venv
+        run: |
+          python -m venv ATY
+          source ATY/bin/activate
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pytest
+        run: |
+          pytest --ignore=tests/test_integration.py
+
+      - name: Check pytest result
+        if: always()  # This ensures the step runs even if previous steps fail
+        run: exit $(test -f pytest-failed && cat pytest-failed || echo 0)  
