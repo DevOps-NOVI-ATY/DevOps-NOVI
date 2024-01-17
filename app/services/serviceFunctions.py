@@ -96,6 +96,9 @@ def zoekKarakters():
 
 #Haal alle stripboeken gefilterd op karakternaam op
 def zoekStripboekBijKarakter(karakterNaam):
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
+
     stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
         .join(Stripboek.karakters)\
         .join(Stripboek.covers)\
@@ -106,6 +109,9 @@ def zoekStripboekBijKarakter(karakterNaam):
 
 #Haal alle stripboeken gefilterd op karakternaam op en sorteer deze op uitgavedatum
 def zoekStripVolgordeBijKarakter(karakterNaam):
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
+
     stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
         .join(Stripboek.karakters)\
         .join(Stripboek.covers)\
@@ -117,6 +123,9 @@ def zoekStripVolgordeBijKarakter(karakterNaam):
 
 #Haal alle series waarin de karakter in voorkomt
 def zoek_serie_bij_karakter(karakterNaam):
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
+
     stmt = select(Serie, Karakter)\
         .join(Stripboek.karakters)\
         .join(Stripboek.series)\
@@ -135,6 +144,8 @@ def zoekSeries():
 
 #Haal alle stripboeken van een serie
 def zoekStripboekBijSerie(serie_naam):
+    if "+" in serie_naam:
+        serie_naam.replace("+", " ")
 
     stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
         .join(Stripboek.karakters)\
@@ -155,5 +166,8 @@ def zoekUitgevers():
 
 #Zoek alle series van een uitgever
 def zoek_serie_bij_uitgever(uitgever_naam):
+    if "+" in uitgever_naam:
+        uitgever_naam.replace("+", " ")
+
     stmt = select(Serie).where(Serie.uitgever_naam==uitgever_naam)
     return runSelectStatement(stmt)
