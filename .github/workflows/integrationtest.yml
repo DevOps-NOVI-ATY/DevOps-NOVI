@@ -30,11 +30,11 @@ jobs:
 
       - name: Compose docker db container
         run: |
-          docker compose up db -d .
+          docker compose up db -d
 
       - name: Compose docker api container
         run: |
-          docker compose up api -d .
+          docker compose up api -d
       
       - name: Run pytest
         run: |
