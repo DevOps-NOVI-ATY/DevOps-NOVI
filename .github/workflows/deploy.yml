@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+
+      - name: Build image 
+        run: docker build -t api .
+
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+      
+      - name: Tag image 
+        run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
+      
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
+
+      - name: authorize cluster
+        run: doctl registry kubernetes-manifest | kubectl apply -f -
+      - name: deploy app
+        run: |
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-<your-registry-name>"}]}'
+          kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api
+      - name: verify replica set
+        run: kubectl get rs
+      - name: expose using loadbalancer
+        run: kubectl expose deployment api --type=LoadBalancer --port=80 --target-port=80
+
+
+
+
+

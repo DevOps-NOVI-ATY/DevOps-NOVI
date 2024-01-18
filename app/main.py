@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.routers import karakter, serie, uitgever, stripboeken
 import app.database
 
+
 app = FastAPI()
 
 #Voeg routers toe
