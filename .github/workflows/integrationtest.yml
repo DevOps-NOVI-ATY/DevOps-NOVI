@@ -12,18 +12,6 @@ jobs:
   integration_tests:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres
-        env:
-          POSTGRES_USER: user-name
-          POSTGRES_PASSWORD: strong-password
-          POSTGRES_DB: api
-        ports:
-          - 5432:5432
-        volumes:
-          - local_pgdata:/var/lib/postgresql/data
-        options: --health-cmd "pg_isready" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
