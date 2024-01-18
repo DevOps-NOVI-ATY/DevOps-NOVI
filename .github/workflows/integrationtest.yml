@@ -37,4 +37,4 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest
+          docker exec api-container
