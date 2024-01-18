@@ -19,16 +19,15 @@ jobs:
           POSTGRES_USER: user-name
           POSTGRES_PASSWORD: strong-password
           POSTGRES_DB: api
-        volumes:
-          - local_pgdata:/var/lib/postgresql/data
         ports:
           - 5432:5432
+        volumes:
+          - local_pgdata:/var/lib/postgresql/data
         healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-        interval: 5s
-        timeout: 5s
-        retries: 5
-    
+          test: ["CMD-SHELL", "pg_isready"]
+          interval: 5s
+          timeout: 5s
+          retries: 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,3 +51,5 @@ jobs:
       - name: Run pytest
         run: |
           docker exec api-container pytest
+        env: 
+          DATABASE_URL: postgresql://user-name:strong-password@db/api
