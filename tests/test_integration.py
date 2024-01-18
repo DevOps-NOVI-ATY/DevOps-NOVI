@@ -1,7 +1,3 @@
-from app.models.dbFunctions import startSession, closeSession, commitAndCloseSession, runSelectStatement
-from sqlalchemy import select
-from app.models.models import Karakter
-from fastapi.testclient import TestClient
 from .test_main import client
 
 def test_karakter_status_code():
