@@ -1,10 +1,7 @@
 on:
-  pull_request:
-    branches:
-      - feature_postman_testing
   push:
     branches:
-      - feature_postman_testing
+      - main
 
 jobs:
   build_and_push:

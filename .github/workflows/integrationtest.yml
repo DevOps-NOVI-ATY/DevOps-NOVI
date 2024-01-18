@@ -19,42 +19,18 @@ jobs:
           POSTGRES_USER: user-name
           POSTGRES_PASSWORD: strong-password
           POSTGRES_DB: api
-        volumes:
-          - local_pgdata:/var/lib/postgresql/data
         ports:
-          - "5432:5432"
+          - 5432:5432
         options: --health-cmd "pg_isready" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Build and run Docker containers
+      - name: Install Dependencies
         run: |
-          docker build -t api-test .
-          docker run -d --name api-container -p 8000:8000 --network=host api-test
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-
-      - name: Wait for API to be ready and start test
+      - name: Run pytest
         run: |
-          docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'
-          
-          touch supervisord.conf
-          cat > supervisord.conf << EOL
-          [supervisord]
-
-          [fcgi-program:uvicorn]
-          socket=tcp://localhost:8080
-          command=/opt/hostedtoolcache/Python/3.10.13/x64/bin/uvicorn --fd 0 app.main:app
-          numprocs=4
-          process_name=uvicorn-%(process_num)d
-          stdout_logfile=/dev/stdout
-          stdout_logfile_maxbytes=0
-          EOL
-          supervisord
-          sleep 3
           pytest
-
-      - name: Cleanup
-        run: |
-          docker stop api-container
-          docker rm api-container      
