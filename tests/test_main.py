@@ -1,7 +1,10 @@
 
 import pytest
+from fastapi.testclient import TestClient
+from app.main import app
 import os
-import requests
+
+client = TestClient(app)
 
 #def client(mocker):
 #    # Mocking the FastAPI app instance
@@ -12,9 +15,9 @@ def mock_database_url(monkeypatch):
     assert os.environ.get('DATABASE_URL') == 'test_database_url'
 
 def test_status_code():
-    response = requests.get("http://api:8000")
+    response = client.get("/")
     assert response.status_code == 200
 
 def test_response():
-    response = requests.get("http://127.0.0.1:8000")
+    response = client.get("/")
     assert response.json() == "NOVI - Comic books API"

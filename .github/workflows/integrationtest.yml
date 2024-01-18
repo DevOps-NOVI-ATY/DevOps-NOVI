@@ -7,23 +7,35 @@ on:
   push:
     branches:
       - development
-
+ 
 jobs:
   integration_tests:
     runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_USER: user-name
+          POSTGRES_PASSWORD: strong-password
+          POSTGRES_DB: api
+        ports:
+          - 5432:5432
+        volumes:
+          - local_pgdata:/var/lib/postgresql/data
+        options: --health-cmd "pg_isready" --health-inter
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Compose docker
+      - name: Set up Python 3.10.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10.13"
+          
+      - name: Install python dependencies
         run: |
-          docker compose up -d
-
-      - name: check docker names
-        run: |
-          docker ps
-      
-      - name: Run pytest
-        run: |
-          docker exec devops-novi-api-1 pytest tests/
+          python -m pip install --upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi

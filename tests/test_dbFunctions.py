@@ -1,3 +1,5 @@
+from .test_main import client
+
 import unittest
 from unittest.mock import Mock, patch, MagicMock
 from sqlalchemy.exc import SQLAlchemyError
