@@ -34,7 +34,7 @@ jobs:
 
       - name: run Docker containers
         run: |
-          docker run -d --name api-container -p 8000:8000 --network=host api
+          docker run -d --name api-container -p 8000:8000 --network=host api -e DATABASE_URL=postgresql://user-name:strong-password@db/api
 
       - name: Wait for API to be ready and start test
         run: |
