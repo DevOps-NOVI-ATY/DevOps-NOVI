@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Docker containers
         run: |
-          docker build -t api-test -f Dockerfiletesting .
+          docker build -t api-test -f dockerfiletesting .
 
       - name: run Docker containers
         run: |
