@@ -19,7 +19,6 @@ jobs:
       - name: Compose docker db container
         run: |
           docker-compose up db -d
-          
           until docker inspect --format "{{json .State.Health.Status }}" db | grep -q healthy; do
             echo "Waiting for db container to be healthy..."
             sleep 5
@@ -29,7 +28,6 @@ jobs:
       - name: Compose docker api container
         run: |
           docker-compose up api -d
-          
           until docker inspect --format "{{json .State.Health.Status }}" api | grep -q healthy; do
             echo "Waiting for api container to be healthy..."
             sleep 5
