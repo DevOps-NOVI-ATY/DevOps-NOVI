@@ -12,9 +12,9 @@ def mock_database_url(monkeypatch):
     assert os.environ.get('DATABASE_URL') == 'test_database_url'
 
 def test_status_code():
-    response = requests.get("http://localhost:8000")
+    response = requests.get("http://api:8000")
     assert response.status_code == 200
 
 def test_response():
-    response = requests.get("http://localhost:8000")
+    response = requests.get("http://127.0.0.1:8000")
     assert response.json() == "NOVI - Comic books API"
