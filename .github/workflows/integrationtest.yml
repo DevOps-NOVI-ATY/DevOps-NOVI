@@ -32,14 +32,11 @@ jobs:
         run: |
           docker build -t api-test .
           docker run -d --name api-container -p 8000:8000 --network=host api-test
-          docker run pytest api-container
 
-      - name: Wait for API to be ready
-        run: docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'
 
-      - name: Run Pytest
+      - name: Wait for API to be ready and start test
         run: |
-          pip install -r requirements.txt
+          docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'
           
           touch supervisord.conf
           cat > supervisord.conf << EOL
