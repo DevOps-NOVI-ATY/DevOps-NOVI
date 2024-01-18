@@ -13,29 +13,43 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      db:
-        image: postgres
-        env:
-          POSTGRES_USER: user-name
-          POSTGRES_PASSWORD: strong-password
-          POSTGRES_DB: api
-        ports:
-          - 5432:5432
-        options: --health-cmd "pg_isready" --health-interval 10s --health-timeout 5s --health-retries 5
+  db:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user-name
+      POSTGRES_PASSWORD: strong-password
+      POSTGRES_DB: api
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build and run Docker containers
+      - name: Build Docker containers
         run: |
           docker build -t api-test .
+
+      - name: run Docker containers
+        run: |
           docker run -d --name api-container -p 8000:8000 --network=host api-test
         env: 
           DATABASE_URL: postgresql://user-name:strong-password@db/api
 
       - name: Wait for API to be ready and start test
         run: |
-          docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'    
+          docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'  
+        environment:
+          DATABASE_URL: postgresql://user-name:strong-password@db/api  
 
       - name: Run pytest
         run: |
