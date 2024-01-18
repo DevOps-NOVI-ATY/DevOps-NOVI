@@ -2,15 +2,93 @@ from sqlalchemy import select
 from ..models.dbFunctions import runSelectStatement
 from ..models.models import Uitgever, Serie, Stripboek, Karakter, Cover_soort, Serie_strip, Strip_kar, Strip_cover
 
+    
+'''
+-------------------------------------------------------------------
+|           Functies voor endpoint /stripboeken                   |
+-------------------------------------------------------------------
+'''
 
+# Haal alle stripboeken op
+def zoek_stripboeken():
+    stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
+        .join(Stripboek.karakters)\
+        .join(Stripboek.covers)\
+        .join(Stripboek.series)\
+    
+    return runSelectStatement(stmt)
+
+# Haal alle stripboeken gefilterd op querystring op
+def zoek_stripboeken_query(query:dict):
+
+    # haal alle stripboeken op
+    alle_stripboeken = zoek_stripboeken()
+    
+    # list om alle gefilterde stripboeken op te slaan.
+    stripboeken_gefilterd = []
+
+    # over alle stripboeken itereren
+    for stripboek in alle_stripboeken:
+        
+        check = True
+
+        # controleer of eigenschappen van stripboek overeenkomen met filters
+        for key, value in query.items():
+
+            #verander + in spaties
+            if "+" in value:
+                value.replace("+", " ")
+            
+
+            if key == 'uitgever':
+                #als eigenschap van stripboek niet overeenkomt, ga naar volgende stripboek
+                if stripboek['Uitgever'].naam != value:
+                    check = False
+                    break
+
+            elif key == 'serie':
+                if stripboek['Serie'].naam != value:
+                    check = False
+                    break
+
+            elif key == 'stripboek':
+                if stripboek['Stripboek'].naam != value:
+                    check = False
+                    break
+
+            elif key == 'karakter':
+                if stripboek['Karakter'].naam != value:
+                    check = False
+                    break
+
+            elif key == 'cover':
+                if stripboek['Cover_soort'].naam != value:
+                    check = False
+                    break
+                        
+
+        # als stripboek overeenkomt, voeg deze dan toe aan de lijst.             
+        if check:
+            stripboeken_gefilterd.append(stripboek)
+
+        
+    # check of er stripboeken zijn 
+    if len(stripboeken_gefilterd) > 0:
+
+        #check of het op volgorde moet
+        if "volgorde" in query:
+            return sorted(stripboeken_gefilterd, key= lambda i: i["Stripboek"].Uitgavedatum)    
+        
+        return stripboeken_gefilterd
+    else:
+        return "Geen stripboeken gevonden"
+    
 
 '''
 -------------------------------------------------------------------
-|                                                                  |
+|           Functies voor endpoint /karakters                     |
 -------------------------------------------------------------------
 '''
-#zoekfuncties uitgevoerd door DB
-
 #haal alle karakters op
 def zoekKarakters():
     stmt = select(Karakter)
@@ -18,128 +96,78 @@ def zoekKarakters():
 
 #Haal alle stripboeken gefilterd op karakternaam op
 def zoekStripboekBijKarakter(karakterNaam):
-    stmt = (
-        select(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
-        .join(Stripboek.karakters)
-        .join(Stripboek.covers)
-        .join(Stripboek.series)
-        .distinct(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
-        .where(Karakter.naam == karakterNaam)
-    )
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
 
+    stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
+        .join(Stripboek.karakters)\
+        .join(Stripboek.covers)\
+        .join(Stripboek.series)\
+        .where(Karakter.naam == karakterNaam)
+    #print(stmt)
     return runSelectStatement(stmt)
 
 #Haal alle stripboeken gefilterd op karakternaam op en sorteer deze op uitgavedatum
 def zoekStripVolgordeBijKarakter(karakterNaam):
-    stmt = (select(Stripboek, Serie, Uitgever, Cover_soort)
-        .join(Stripboek.karakters)
-        .join(Stripboek.covers)
-        .join(Stripboek.series)
-        .distinct(Stripboek.naam, Stripboek.issueNummer, Stripboek.Uitgavedatum, Stripboek.paginas, Stripboek.prijs)
-        .where(Karakter.naam == karakterNaam)
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
+
+    stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
+        .join(Stripboek.karakters)\
+        .join(Stripboek.covers)\
+        .join(Stripboek.series)\
+        .where(Karakter.naam == karakterNaam)\
         .order_by(Stripboek.Uitgavedatum.asc())
-    )
+    #print(stmt)
     return runSelectStatement(stmt)
 
+#Haal alle series waarin de karakter in voorkomt
+def zoek_serie_bij_karakter(karakterNaam):
+    if "+" in karakterNaam:
+        karakterNaam.replace("+", " ")
 
+    stmt = select(Serie, Karakter)\
+        .join(Stripboek.karakters)\
+        .join(Stripboek.series)\
+        .where(Karakter.naam == karakterNaam)
+    
+    return runSelectStatement(stmt)
+'''
+-------------------------------------------------------------------
+|           Functies voor endpoint /series                        |
+-------------------------------------------------------------------
+'''
 #Haal alle series op
 def zoekSeries():
     stmt = select(Serie)
     return runSelectStatement(stmt)
 
+#Haal alle stripboeken van een serie
+def zoekStripboekBijSerie(serie_naam):
+    if "+" in serie_naam:
+        serie_naam.replace("+", " ")
 
+    stmt = select(Uitgever, Serie, Stripboek, Karakter, Cover_soort)\
+        .join(Stripboek.karakters)\
+        .join(Stripboek.covers)\
+        .join(Stripboek.series)\
+        .where(Serie.naam == serie_naam)
+    
+    return runSelectStatement(stmt) 
+'''
+-------------------------------------------------------------------
+|           Functies voor endpoint /uitgevers                     |
+-------------------------------------------------------------------
+'''
 #Haal alle uitgevers op
 def zoekUitgevers():
     stmt = select(Uitgever)
     return runSelectStatement(stmt)
 
+#Zoek alle series van een uitgever
+def zoek_serie_bij_uitgever(uitgever_naam):
+    if "+" in uitgever_naam:
+        uitgever_naam.replace("+", " ")
 
-'''
--------------------------------------------------------------------
-|                                                                  |
--------------------------------------------------------------------
-'''
-
-#zoekfuncties uitgevoerd door Python
-def zoekStripboekBijKarakter_Py(karakterNaam):
-    
-    # get alle karakters
-    alle_karakters = zoekKarakters()
-
-    #check of karakter bestaat
-    check1 = False
-    for i in alle_karakters:
-       if i["Karakter"].naam == karakterNaam:
-           check1 = True
-    
-    #als karakter niet bestaat geef error terug.
-    if not check1:
-        return "Karakter bestaat niet"
-    
-    #alle koppelingen tussen stripboek en karakter ophalen uit koppeltabel
-    alle_stripkar = runSelectStatement(select(Strip_kar))
-
-    #stripboeken filteren op karakter
-    stripboek_filtered = []
-    for j in alle_stripkar:
-        if j["karakter"] ==  karakterNaam:
-            stripboek_filtered.append(j["stripboek"])
-    
-    #get alle stripboeken
-    alle_stripboeken = runSelectStatement(select(Stripboek))
-
-    #filter resultaten op gefilterde stripboeken
-    resultaat = []
-    for k in alle_stripboeken:
-        if k["Stripboek"].naam in stripboek_filtered:
-            resultaat.append(k["Stripboek"].__dict__)
-
-    #alle koppelingen tussen stripboek en coversoort/serie ophalen uit koppeltabel
-    alle_stripcover = runSelectStatement(select(Strip_cover))
-    alle_seriestrip = runSelectStatement(select(Serie_strip))
-
-    #alle series ophalen
-    alle_series = runSelectStatement(select(Serie))
-
-    #coversoort, serie en uitgever toevoegen aan gefilterde stripboeken
-    for l in resultaat:
-
-        #filter coversoorten op stripboek en voeg toe
-        for m in alle_stripcover:
-            if m["stripboek"] == l["naam"]:
-                l["cover"] = m["cover_soort"]
-        
-        #filter series op stripboek en voeg toe
-        for n in alle_seriestrip:
-            if n["stripboek"] == l["naam"]:
-                l["serie"] = n["serie"]
-        
-        #filter uitgever op serie en voeg toe
-        for o in alle_series:
-            if o["Serie"].naam == l["serie"]:
-                l["uitgever"] = o["Serie"].uitgever_naam
-            
-    #geef resultaten terug
-    return resultaat
-
-
-def zoekStripVolgordeBijKarakter_Py(karakterNaam):
-    
-    #haal alle stripboeken op
-    resultaat = zoekStripboekBijKarakter_Py(karakterNaam)
-
-    #sorteer stripboeken op uitgave datum
-    gesorteerde_res = sorted(resultaat, key= lambda i: i["Uitgavedatum"])
-
-    return gesorteerde_res
-
-
-
-    
-
-
-'''
--------------------------------------------------------------------
-|                                                                  |
--------------------------------------------------------------------
-'''
+    stmt = select(Serie).where(Serie.uitgever_naam==uitgever_naam)
+    return runSelectStatement(stmt)

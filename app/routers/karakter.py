@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..services import serviceFunctions
 
 #maak router aan voor endpoint karakter
-router = APIRouter(prefix='/karakter')
+router = APIRouter(prefix='/karakters')
 
 #GET request naar root van endpoint karakter
 @router.get('/')
@@ -19,15 +19,8 @@ async def zoekStripsBijKarakter(karakterNaam):
 async def zoekStripVolgordeBijKarakter(karakterNaam):
     return serviceFunctions.zoekStripVolgordeBijKarakter(karakterNaam)
 
-#GET request naar zoekStrip van endpoint karakter met een karakternaam in path
-@router.get("/zoekstrippy/{karakterNaam}")
-async def zoekStripsBijKarakter_py(karakterNaam):
-    return serviceFunctions.zoekStripboekBijKarakter_Py(karakterNaam)
-
-#GET request naar zoekstripvolgorde van endpoint karakter met een karakternaam in path
-@router.get("/zoekstripvolgordepy/{karakterNaam}")
-async def zoekStripVolgordeBijKarakter_py(karakterNaam):
-    return serviceFunctions.zoekStripVolgordeBijKarakter_Py(karakterNaam)
 
 #GET request naar zoekSerie van endpoint karakter met een karakternaam in path
-
+@router.get("/zoekserie/{karakterNaam}")
+async def zoek_serie_bij_karakter(karakterNaam):
+    return serviceFunctions.zoek_serie_bij_karakter(karakterNaam)
