@@ -30,6 +30,7 @@ jobs:
         run: |
           docker build -t api-test .
           docker run -d --name api-container -p 8000:8000 --network=host api-test
+        env: DATABASE_URL: postgresql://user-name:strong-password@db/api
 
       - name: Wait for API to be ready and start test
         run: |
