@@ -1,27 +1,25 @@
-# Use a base image with Python3 and Supervisor
-FROM python:3
+# Gebruik basis image van Python3
+FROM python:3.10.13
 
-# Create a folder for the API
+ENV DATABASE_URL=postgresql://user-name:strong-password@db/api
+
+#Maak een folder aan
 RUN mkdir /api
 
-# Set the working directory
+# stel werk folder in van de container.
 WORKDIR /api
 
-# Copy the requirements file
 COPY requirements.txt .
 
-# Install Python packages
+# Installeer python pakketten
 RUN pip install -r requirements.txt
 
-# Copy the application code
+# Kopieer deze folder naar Workdir ( COPY . . == COPY THIS DIRECTORY TO WORKDIR)
 COPY . .
-
-# Set up Supervisor to run the API and database
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the necessary ports
 EXPOSE 8000
 EXPOSE 5432
 
-# Start Supervisor
-CMD ["/usr/bin/supervisord",  "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# FastAPI runnen op een uvicorn server
+CMD ["uvicorn", "app.main:app", "--host=0.0.0.0", "--port=8000"]

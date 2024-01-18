@@ -30,22 +30,16 @@ jobs:
 
       - name: Build Docker containers
         run: |
-          docker build -t api-test .
+          docker build -t api-test -f Dockerfiletesting .
 
       - name: run Docker containers
         run: |
           docker run -d --name api-container -p 8000:8000 --network=host api-test
-        env: 
-          DATABASE_URL: postgresql://user-name:strong-password@db/api
 
       - name: Wait for API to be ready and start test
         run: |
           docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'    
-        env: 
-          DATABASE_URL: postgresql://user-name:strong-password@db/api
 
       - name: Run pytest
         run: |
           docker exec api-container pytest
-        env: 
-          DATABASE_URL: postgresql://user-name:strong-password@db/api
