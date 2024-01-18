@@ -1,6 +1,8 @@
 # Gebruik basis image van Python3
 FROM python:3.10.13
 
+ENV DATABASE_URL=postgresql://user-name:strong-password@db/api
+
 #Maak een folder aan
 RUN mkdir /api
 
