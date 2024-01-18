@@ -1,15 +1,11 @@
-from app.models.dbFunctions import startSession, closeSession, commitAndCloseSession, runSelectStatement
-from sqlalchemy import select
-from app.models.models import Karakter
-from fastapi.testclient import TestClient
 from .test_main import client
 
 def test_karakter_status_code():
-    response = client.get("/karakter/")
+    response = client.get("/karakters/")
     assert response.status_code == 200
 
 def test_karakter_response():
-    response = client.get("/karakter/")
+    response = client.get("/karakters/")
     assert response.json() == [{"Karakter":{"naam":"spider-man"}},{"Karakter":{"naam":"x-men"}},
                                {"Karakter":{"naam":"avengers"}},{"Karakter":{"naam":"iron man"}},
                                {"Karakter":{"naam":"thor"}},{"Karakter":{"naam":"black widow"}},
