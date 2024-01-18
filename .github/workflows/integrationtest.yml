@@ -30,11 +30,11 @@ jobs:
 
       - name: Build Docker containers
         run: |
-          docker build -t api-test -f dockerfiletesting .
+          docker build -t api -f dockerfiletesting .
 
       - name: run Docker containers
         run: |
-          docker run -d --name api-container -p 8000:8000 --network=host api-test
+          docker run -d --name api-container -p 8000:8000 --network=host api
 
       - name: Wait for API to be ready and start test
         run: |
