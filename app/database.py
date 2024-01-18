@@ -4,7 +4,7 @@ from app.models.models import Base
 import os
 
 
-SQLALCHEMY_DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
+SQLALCHEMY_DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://user:password@localhost:5433/api')
 
 #Maak een connection engine aan
 from sqlalchemy import create_engine
