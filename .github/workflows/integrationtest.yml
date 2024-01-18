@@ -28,18 +28,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build Docker containers
+      - name: Compose docker db container
         run: |
-          docker build -t api .
+          docker compose up db -d .
 
-      - name: run Docker containers
+      - name: Compose docker api container
         run: |
-          docker run -d --name api-container -p 8000:8000 --network=host api
-
-      - name: Wait for API to be ready and start test
-        run: |
-          docker exec api-container sh -c 'while [ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8000)" != "200" ]; do sleep 1; done'    
-
+          docker compose up api -d .
+      
       - name: Run pytest
         run: |
-          docker exec api-container pytest
+          pytest
