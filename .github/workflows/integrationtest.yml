@@ -24,7 +24,6 @@ jobs:
           - 5432:5432
         volumes:
           - local_pgdata:/var/lib/postgresql/data
-        options: --health-cmd "pg_isready" --health-inter
 
     steps:
       - name: Checkout code
