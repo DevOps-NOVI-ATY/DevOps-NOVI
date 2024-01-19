@@ -31,7 +31,10 @@ jobs:
       #   run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
 
       - name: see available dbs
-        run: doctl databases connection
+        run: doctl databases list
+
+      - name: see available dbs IDS
+        run: doctl databases list --format ID --no-header
 
       # - name: Run image 
       #   run: docker run registry.digitalocean.com/dev-ops-novi-api/api:test -e DATABASE_URL={doctl databases connection <database-id> [flags]}
