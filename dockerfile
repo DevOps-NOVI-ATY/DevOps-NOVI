@@ -1,5 +1,9 @@
 FROM python:3.10-slim
 
+ARG DATABASE_URL_ARG
+
+ENV DATABASE_URL=#DATABASE_URL_ARG
+
 #Maak een folder aan
 WORKDIR /api
 

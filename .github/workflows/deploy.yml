@@ -22,7 +22,7 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Build image 
-        run: docker build -t api . -e DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
+        run: docker build --build-arg DATABASE_URL_ARG=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header) -t api .
       
       - name: check env vars
         run: docker exec api /usr/bin/env
