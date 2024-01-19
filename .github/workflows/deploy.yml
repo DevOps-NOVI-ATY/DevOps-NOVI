@@ -13,8 +13,8 @@ jobs:
       - name: Checkout the repo 
         uses: actions/checkout@v2
 
-      # - name: Build image 
-      #   run: docker build -t api .
+      - name: Build image 
+        run: docker build -t api .
 
       - name: Install doctl 
         uses: digitalocean/action-doctl@v2
@@ -24,11 +24,11 @@ jobs:
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       
-      # - name: Tag image 
-      #   run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
+      - name: Tag image 
+        run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
       
-      # - name: Push image to DO Container Registry 
-      #   run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
 
       - name: see available dbs
         run: doctl databases list
