@@ -23,15 +23,18 @@ jobs:
 
       - name: Build image 
         run: docker build --build-arg DATABASE_URL_ARG=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header) -t api .
-      
-      - name: check env vars
-        run: docker exec api /usr/bin/env
 
       - name: Tag image 
         run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
       
       - name: Push image to DO Container Registry 
         run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
+
+      - name: run docker
+        run: docker run --name api -d api
+
+      - name: docker check env
+        run: docker exec api /usr/bin/env
 
       # - name: create cluster
       #   run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
