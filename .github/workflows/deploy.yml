@@ -36,8 +36,8 @@ jobs:
       - name: connect to database
         run: doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header
 
-      # - name: Run image 
-      #   run: docker run registry.digitalocean.com/dev-ops-novi-api/api:test -e DATABASE_URL={doctl databases connection <database-id> [flags]}
+      - name: Run image 
+        run: docker run registry.digitalocean.com/dev-ops-novi-api/api:test -e DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
 
       # - name: create cluster
       #   run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
