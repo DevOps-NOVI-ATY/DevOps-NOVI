@@ -1,7 +1,10 @@
 on:
   push:
     branches:
-      - main
+      - feature/CD
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   build_and_push:
