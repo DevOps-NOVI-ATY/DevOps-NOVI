@@ -36,18 +36,18 @@ jobs:
       - name: docker check env
         run: docker exec api /usr/bin/env
 
-      # - name: create cluster
-      #   run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
-      # - name: authorize cluster
-      #   run: doctl registry kubernetes-manifest | kubectl apply -f -
+      - name: create cluster
+        run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
+      - name: authorize cluster
+        run: doctl registry kubernetes-manifest | kubectl apply -f -
 
-      # - name: deploy app
-      #   run: |
-      #     kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-dev-ops-novi-api"}]}'
-      #     kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api/api:test
+      - name: deploy app
+        run: |
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-dev-ops-novi-api"}]}'
+          kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api/api:test
 
-      # - name: verify replica set
-      #   run: kubectl get rs
+      - name: verify replica set
+        run: kubectl get rs
         
-      # - name: expose using loadbalancer
-      #   run: kubectl expose deployment api --type=LoadBalancer --port=80 --target-port=80
+      - name: expose using loadbalancer
+        run: kubectl expose deployment api --type=LoadBalancer --port=80 --target-port=80
