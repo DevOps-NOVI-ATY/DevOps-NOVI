@@ -22,6 +22,8 @@ spec:
       containers:
       - name: api
         image: <IMAGE>
+        imagePullSecrets:
+          - name: api-registery   
         ports:
         - containerPort: 80
         resources:
