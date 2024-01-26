@@ -4,8 +4,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 import csv
 
-
-
 def populateDatabase(engine):
     session = startSession()
     # 1. Add records to the Uitgever table
@@ -161,16 +159,19 @@ def csv_to_db(csv_file):
             if runSelectStatement(select(Stripboek).where(Stripboek.naam == row[3])) == []:
                 
                 #haal serie object op
+                serie_obj
                 for ser in serie_list:
                     if ser.naam == row[1]:
                         serie_obj = ser
                 
                 #haal karakter object op
+                karakter_obj
                 for kar in karakter_list:
                     if kar.naam == row[8]:
                         karakter_obj = kar
                 
                 #haal cover object op
+                cover_obj
                 for cov in cover_list:
                     if cov.naam == row[9]:
                         cover_obj = cov
