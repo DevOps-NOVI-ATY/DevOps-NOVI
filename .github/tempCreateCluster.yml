@@ -1,0 +1,10 @@
+  - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  
+  - name: create cluster
+    run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
+  
+  - name: authorize cluster
+    run: doctl registry kubernetes-manifest | kubectl apply -f -
