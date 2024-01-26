@@ -27,8 +27,6 @@ spec:
         resources:
           requests:
             cpu: 100m
-          limits:
-            cpu: 100m
         env:
           - name: DATABASE_URL
             valueFrom:
