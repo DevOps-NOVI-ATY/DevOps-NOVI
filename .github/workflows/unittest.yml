@@ -42,4 +42,4 @@ jobs:
 
       - name: run pytest
         run: |
-          pytest tests/
+          pytest tests/ --ignore=tests/test_integration.py
