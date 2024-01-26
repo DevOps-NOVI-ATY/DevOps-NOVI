@@ -40,7 +40,7 @@ jobs:
       
       - name: Add registry to cluster
         run: | 
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "do-registry"}]}'
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
