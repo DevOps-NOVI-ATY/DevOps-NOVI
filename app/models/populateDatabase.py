@@ -89,7 +89,9 @@ def csv_to_db(csv_file):
 
     # database connectie openen
     session = startSession()
+    print(f"CHECKING DB")
     if runSelectStatement(select(Karakter)) == []:
+        print(f"DB IS EMPTY, SEEDING DB")
         #csv bestand openen
         with open(csv_file) as file:
 
