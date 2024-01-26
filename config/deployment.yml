@@ -24,9 +24,6 @@ spec:
         image: <IMAGE>
         ports:
         - containerPort: 80
-        resources:
-          requests:
-            cpu: 100m
         env:
           - name: DATABASE_URL
             valueFrom:
