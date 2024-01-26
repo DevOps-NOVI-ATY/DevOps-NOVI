@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: <IMAGE>  
+        image: <IMAGE>
         ports:
         - containerPort: 80
         resources:
@@ -36,7 +36,7 @@ spec:
                 name: database-secret
                 key: database-url
         imagePullSecrets:
-          - name: api-registry 
+        - name: api-registry
 ---
 apiVersion: v1
 kind: Service
