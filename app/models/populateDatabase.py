@@ -159,19 +159,19 @@ def csv_to_db(csv_file):
             if runSelectStatement(select(Stripboek).where(Stripboek.naam == row[3])) == []:
                 
                 #haal serie object op
-                serie_obj
+                serie_obj = None
                 for ser in serie_list:
                     if ser.naam == row[1]:
                         serie_obj = ser
                 
                 #haal karakter object op
-                karakter_obj
+                karakter_obj  = None
                 for kar in karakter_list:
                     if kar.naam == row[8]:
                         karakter_obj = kar
                 
                 #haal cover object op
-                cover_obj
+                cover_obj = None
                 for cov in cover_list:
                     if cov.naam == row[9]:
                         cover_obj = cov
