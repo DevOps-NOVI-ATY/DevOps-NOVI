@@ -1,4 +1,4 @@
-name: integration test development
+name: unit testing code
 
 on:
   pull_request:
