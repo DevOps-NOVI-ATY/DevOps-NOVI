@@ -35,8 +35,6 @@ spec:
               secretKeyRef:
                 name: database-secret
                 key: database-url
-        imagePullSecrets:
-        - name: api-registry
 ---
 apiVersion: v1
 kind: Service
