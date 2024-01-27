@@ -1,4 +1,4 @@
-name: integration testing code
+name: unit testing code
 
 on:
   pull_request:
@@ -42,4 +42,4 @@ jobs:
 
       - name: run pytest
         run: |
-          pytest tests/test_integration.py
+          pytest tests/ --ignore=tests/test_integration.py

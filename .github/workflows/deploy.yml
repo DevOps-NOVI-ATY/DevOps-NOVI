@@ -1,10 +1,7 @@
 on:
   push:
     branches:
-      - feature/CD
-  # push:
-  #   branches:
-  #     - main
+      - main
 
 jobs:
   build_and_push:
@@ -18,34 +15,34 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
+      - name: Build image 
+        run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
+
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
-
-      - name: Build image 
-        run: docker build --build-arg DATABASE_URL_ARG=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header) -t api .
-
-      - name: Tag image 
-        run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
       
       - name: Push image to DO Container Registry 
-        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
+        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
 
-      - name: create cluster
-        run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/dev-ops-novi-api/api:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
       
-      - name: authorize cluster
-        run: doctl registry kubernetes-manifest | kubectl apply -f -
-
-      - name: deploy app
+      - name: Create or update secrets
         run: |
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-dev-ops-novi-api"}]}'
-          kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api/api:test
+          kubectl create secret generic api-registry --from-file=.dockerconfigjson=docker-config.json --type=kubernetes.io/dockerconfigjson || true
+          kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header) || true
+      
+      - name: Add registry to cluster
+        run: | 
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
 
-      - name: verify replica set
-        run: kubectl get rs
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
 
-      - name: Get pods
-        run: kubectl get pods  
-        
-      - name: expose using loadbalancer
-        run: kubectl expose deployment api --type=LoadBalancer --port=80 --target-port=80
+      - name: Verify deployment
+        run: kubectl rollout status deployment/api
+
+

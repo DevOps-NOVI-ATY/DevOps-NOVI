@@ -11,7 +11,8 @@ from sqlalchemy import create_engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 #Controle op db. als het niet bestaat, maakt het de db aan.
-from app.models.populateDatabase import populateDatabase, csv_to_db
+from app.models.populateDatabase import csv_to_db
+
 
 if not database_exists(engine.url):
     create_database(engine.url)
