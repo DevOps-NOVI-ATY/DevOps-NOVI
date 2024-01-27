@@ -1,7 +1,10 @@
 on:
   push:
     branches:
-      - main
+      - feature/CD
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   build_and_push:
@@ -10,35 +13,39 @@ jobs:
       - name: Checkout the repo 
         uses: actions/checkout@v2
 
-      - name: Build image 
-        run: docker build -t api .
-
       - name: Install doctl 
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      
+
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
-      
+
+      - name: Build image 
+        run: docker build --build-arg DATABASE_URL_ARG=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header) -t api .
+
       - name: Tag image 
         run: docker tag api registry.digitalocean.com/dev-ops-novi-api/api:test
       
       - name: Push image to DO Container Registry 
         run: docker push registry.digitalocean.com/dev-ops-novi-api/api:test
 
+      - name: create cluster
+        run: doctl kubernetes cluster create api-cluster --tag api --auto-upgrade=true --node-pool "name=api-pool;count=1;auto-scale=true;min-nodes=1;max-nodes=3;tag=api"
+      
       - name: authorize cluster
         run: doctl registry kubernetes-manifest | kubectl apply -f -
+
       - name: deploy app
         run: |
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-<your-registry-name>"}]}'
-          kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "registry-dev-ops-novi-api"}]}'
+          kubectl create deployment api --image=registry.digitalocean.com/dev-ops-novi-api/api:test
+
       - name: verify replica set
         run: kubectl get rs
+
+      - name: Get pods
+        run: kubectl get pods  
+        
       - name: expose using loadbalancer
         run: kubectl expose deployment api --type=LoadBalancer --port=80 --target-port=80
-
-
-
-
-
