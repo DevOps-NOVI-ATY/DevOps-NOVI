@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from .Database.connection import init_db
-from .Routers.characters import router as char_router
-from .Routers.comics import router as comics_router
-from .Routers.publishers import router as pub_router
-from .Routers.series import router as series_router
+from .routers.characters import router as char_router
+from .routers.comics import router as comics_router
+from .routers.publishers import router as pub_router
+from .routers.series import router as series_router
 
 
 init_db()

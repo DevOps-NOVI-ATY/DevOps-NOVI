@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from ..Models.models import characters
+from ..models.models import characters
 from ..Database.functions import get_all, return_or_404
-from ..Schemas import schemas
+from ..schemas import schemas
 
 #Create router for endpoint /characters
 router = APIRouter(prefix='/characters')

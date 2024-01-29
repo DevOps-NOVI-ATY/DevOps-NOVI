@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from .connection import start_session
-from ..Models.models import comics, series, characters, covers
+from ..models.models import comics, series, characters, covers
 from sqlalchemy import select
 
 #Return 404 not found when no there are results
