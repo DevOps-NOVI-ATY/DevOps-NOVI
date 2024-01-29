@@ -20,4 +20,4 @@ EXPOSE 5432
 # RUN alembic upgrade head
 RUN chmod +x /api/entrypoint.sh
 # FastAPI runnen op een uvicorn server
-ENTRYPOINT [ "/api/entrypoint.sh" ]
+ENTRYPOINT [ "bash", "/api/entrypoint.sh" ]
