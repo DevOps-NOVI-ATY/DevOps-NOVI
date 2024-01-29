@@ -3,75 +3,77 @@ import sqlalchemy as sa
 from sqlalchemy import Table, ForeignKey
 from sqlalchemy.orm import relationship
 
-#basis klasse voor het aanmaken van een tabel
-Base = declarative_base()
 
 
-Serie_strip = Table(
-    'serie_strip',
-    Base.metadata,
-    sa.Column('serie', ForeignKey('serie.naam'), primary_key=True),
-    sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),    
+#Base class
+base = declarative_base()
+
+
+series_comics = Table(
+    'series_comics',
+    base.metadata,
+    sa.Column('series', ForeignKey('series.name'), primary_key=True),
+    sa.Column('comics', ForeignKey('comics.name'), primary_key=True),    
 )
 
-Strip_kar = Table(
-    'strip_kar',
-    Base.metadata,
-    sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),
-    sa.Column('karakter', ForeignKey('karakter.naam'), primary_key=True),    
+comics_char = Table(
+    'comics_char',
+    base.metadata,
+    sa.Column('comics', ForeignKey('comics.name'), primary_key=True),
+    sa.Column('characters', ForeignKey('characters.name'), primary_key=True),    
 )
 
-Strip_cover = Table(
-    'strip_cover',
-    Base.metadata,
-    sa.Column('stripboek', ForeignKey('stripboek.naam'), primary_key=True),
-    sa.Column('cover_soort', ForeignKey('cover_soort.naam'), primary_key=True),    
+comics_covers = Table(
+    'comics_covers',
+    base.metadata,
+    sa.Column('comics', ForeignKey('comics.name'), primary_key=True),
+    sa.Column('covers', ForeignKey('covers.type'), primary_key=True),    
 )
 
 
 # Define the uitgever class
-class Uitgever(Base):
-    __tablename__ = "uitgever"
+class publishers(base):
+    __tablename__ = "publishers"
 
-    naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    series = relationship("Serie", back_populates="uitgever")
+    name = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
+    series = relationship("series", back_populates="publishers")
 
       
-class Serie(Base):
-    __tablename__ = "serie"
+class series(base):
+    __tablename__ = "series"
 
-    naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    serieGrootte = sa.Column(sa.Integer)
-    uitgever_naam = sa.Column(sa.String, ForeignKey("uitgever.naam"))
-    uitgever = relationship("Uitgever", back_populates="series")
-    stripboeken = relationship('Stripboek', secondary='serie_strip', back_populates='series')
-
-
-class Stripboek(Base):
-    __tablename__ = "stripboek"
-
-    naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    issueNummer = sa.Column(sa.Integer, nullable=False)
-    Uitgavedatum = sa.Column(sa.Date, nullable=False)
-    paginas = sa.Column(sa.Integer)
-    prijs = sa.Column(sa.Float)
-    series = relationship('Serie', secondary='serie_strip', back_populates='stripboeken')
-    karakters = relationship('Karakter', secondary='strip_kar', back_populates='stripboeken')
-    covers = relationship('Cover_soort', secondary='strip_cover', back_populates='stripboeken')
+    name = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
+    size = sa.Column(sa.Integer)
+    publisher = sa.Column(sa.String, ForeignKey("publishers.name"))
+    publishers = relationship("publishers", back_populates="series")
+    comics = relationship('comics', secondary='series_comics', back_populates='series')
 
 
+class comics(base):
+    __tablename__ = "comics"
 
-class Karakter(Base):
-    __tablename__ = "karakter"
+    name = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
+    issue = sa.Column(sa.Integer, nullable=False)
+    release = sa.Column(sa.Date, nullable=False)
+    pages = sa.Column(sa.Integer)
+    price = sa.Column(sa.Float)
+    series = relationship('series', secondary='series_comics', back_populates='comics')
+    characters = relationship('characters', secondary='comics_char', back_populates='comics')
+    covers = relationship('covers', secondary='comics_covers', back_populates='comics')
 
-    naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    stripboeken = relationship('Stripboek', secondary='strip_kar', back_populates='karakters')
 
 
-class Cover_soort(Base):
-    __tablename__ = "cover_soort"
+class characters(base):
+    __tablename__ = "characters"
 
-    naam = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
-    stripboeken = relationship('Stripboek', secondary='strip_cover', back_populates='covers')
+    name = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
+    comics = relationship('comics', secondary='comics_char', back_populates='characters')
+
+
+class covers(base):
+    __tablename__ = "covers"
+
+    type = sa.Column(sa.String, primary_key=True, nullable=False, unique=True)
+    comics = relationship('comics', secondary='comics_covers', back_populates='covers')
 
 
