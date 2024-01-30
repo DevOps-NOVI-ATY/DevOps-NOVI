@@ -35,11 +35,10 @@ jobs:
       - name: Navigate to Terraform directory
         run: |
          ls
-         cd config
-         ls
 
       - name: Terraform Init
         run: |
+          ls
           terraform init
           ls
 
