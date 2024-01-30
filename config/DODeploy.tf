@@ -30,7 +30,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
     size       = "s-2vcpu-2gb"
     auto_scale = true
     min_nodes  = 1
-    max_nodes  = 3
+    max_nodes  = 4
   }
 }
 
