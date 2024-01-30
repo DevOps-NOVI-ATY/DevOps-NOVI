@@ -50,7 +50,7 @@ jobs:
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/dev-ops-novi-api/api:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster -n novi-api
       
       - name: Create or update secrets
         run: |
@@ -59,7 +59,7 @@ jobs:
       
       - name: Add registry to cluster
         run: | 
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}' -n novi-api
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml -n novi-api
