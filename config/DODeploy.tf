@@ -21,7 +21,7 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
-  name    = "api-cluster"
+  name    = "api-cluster2"
   region  = "ams3"
   version = "1.29.0-do.0"
 
