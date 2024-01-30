@@ -23,9 +23,6 @@ jobs:
       
       # - name: Push image to DO Container Registry 
       #   run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
-      
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
 
       - name: navigate to Terrafom folder before setup
         run: |
@@ -47,6 +44,9 @@ jobs:
           terraform apply -auto-approve \
             -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
+      
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
 
       - name: Deploy Kubernetes Manifests
         run: |
