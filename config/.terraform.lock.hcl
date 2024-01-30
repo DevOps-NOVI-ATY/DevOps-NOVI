@@ -26,8 +26,7 @@ provider "registry.opentofu.org/digitalocean/digitalocean" {
 }
 
 provider "registry.opentofu.org/hashicorp/kubernetes" {
-  version     = "2.25.2"
-  constraints = ">= 2.0.0"
+  version = "2.25.2"
   hashes = [
     "h1:jPlAeBVE6czoAwt0AyBQb6J2Vk79gFjJY/XYbIZHn90=",
     "zh:38d35c069a7f5a7c360ce2ddf6da7f22fd25290f76697d5ab0adbc9e7cae4db8",
