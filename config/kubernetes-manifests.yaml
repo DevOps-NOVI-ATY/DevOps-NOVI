@@ -16,11 +16,11 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: novi-api
+      app: api
   template:
     metadata:
       labels:
-        app: novi-api
+        app: api
     spec:
       containers:
       - name: api
@@ -43,7 +43,7 @@ metadata:
   namespace: novi-api
 spec:
   selector:
-    app: novi-api
+    app: api
   ports:
     - protocol: TCP
       port: 80
