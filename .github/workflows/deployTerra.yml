@@ -40,8 +40,8 @@ jobs:
 
       - name: Terraform Init
         run: |
-        terraform init
-        ls
+          terraform init
+          ls
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
