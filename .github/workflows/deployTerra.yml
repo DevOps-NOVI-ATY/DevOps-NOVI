@@ -10,19 +10,22 @@ jobs:
       - name: Checkout the repo 
         uses: actions/checkout@v2
 
-      - name: Install doctl 
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      # - name: Install doctl 
+      #   uses: digitalocean/action-doctl@v2
+      #   with:
+      #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Build image 
-        run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
+      # - name: Build image 
+      #   run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
 
-      - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
+      # - name: Log in to DO Container Registry 
+      #   run: doctl registry login --expiry-seconds 600
       
-      - name: Push image to DO Container Registry 
-        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
+      # - name: Push image to DO Container Registry 
+      #   run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
+
+      - name: folder structure
+        run: ls
 
       - name: Navigate to Terraform directory
         run: cd /config
