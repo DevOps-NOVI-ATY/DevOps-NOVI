@@ -13,22 +13,24 @@ terraform {
   }
 }
 
-variable "do_token" {}
+variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
-  token = var.do_token
+  token = var.DIGITALOCEAN_ACCESS_TOKEN
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   name    = "api-cluster"
   region  = "ams3"
-  version = "1.22.2-do.1"
+  version = "1.29.0-do.0"
 
   node_pool {
-    name       = "pool-1"
+    name       = "api-pool"
     size       = "s-1vcpu-1gb"  # Change to the smallest droplet size
-    node_count = 3
+    auto_scale = true
+    min_nodes  = 1
+    max_nodes  = 3
   }
 }
 
