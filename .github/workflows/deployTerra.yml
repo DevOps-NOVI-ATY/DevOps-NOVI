@@ -24,27 +24,27 @@ jobs:
       - name: Push image to DO Container Registry 
         run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
 
-      # - name: navigate to Terrafom folder before setup
-      #   run: |
-      #     cd config
+      - name: navigate to Terrafom folder before setup
+        run: |
+          cd config
 
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v1
-      #   with:
-      #     terraform_version: 0.15.0
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.0
 
-      # - name: Terraform Init
-      #   run: |
-      #     cd config
-      #     terraform init
+      - name: Terraform Init
+        run: |
+          cd config
+          terraform init
 
-      # - name: Terraform Apply
-      #   run: |
-      #     cd config
-      #     terraform apply -auto-approve \
-      #       -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
-      #       -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
-      #       -var "CLUSTER_NAME"="api-cluster"
+      - name: Terraform Apply
+        run: |
+          cd config
+          terraform apply -auto-approve \
+            -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
+            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
+            -var "CLUSTER_NAME"="api-cluster"
 
 
       - name: Update deployment file

@@ -36,5 +36,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
     auto_scale = true
     min_nodes  = 1
     max_nodes  = 3
+	tags = "api"
   }
+  tags = "api"
 }
