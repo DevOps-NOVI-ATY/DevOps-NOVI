@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from ..models.models import series
-from ..Database.functions import get_all, filtered_series, return_or_404
+from ..database.functions import get_all, filtered_series, return_or_404
 from ..schemas import schemas
 
 #Create router for endpoint /series

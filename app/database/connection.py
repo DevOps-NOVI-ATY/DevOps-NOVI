@@ -27,7 +27,7 @@ def init_db():
     base.metadata.create_all(engine)
 
     #populate database
-    csv_to_db("app/Database/dataset.csv")
+    csv_to_db("app/database/dataset.csv")
 
 
 #populate database with a csv file

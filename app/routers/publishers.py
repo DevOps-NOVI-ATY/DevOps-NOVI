@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..models.models import publishers
-from ..Database.functions import get_all, return_or_404
+from ..database.functions import get_all, return_or_404
 from ..schemas import schemas
 
 #Create router for endpoint /publishers
