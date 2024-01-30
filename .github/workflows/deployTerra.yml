@@ -19,7 +19,7 @@ jobs:
       #   run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
 
       - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
+        run: doctl registry login --expiry-seconds 1200
       
       # - name: Push image to DO Container Registry 
       #   run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
