@@ -13,11 +13,11 @@ terraform {
   }
 }
 
-variable "DIGITALOCEAN_TOKEN" {}
+variable "do_token" {}
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
-  token = var.DIGITALOCEAN_TOKEN
+  token = var.do_token
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {

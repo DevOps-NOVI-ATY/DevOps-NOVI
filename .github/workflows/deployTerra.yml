@@ -43,4 +43,4 @@ jobs:
           cd config
           terraform apply -auto-approve \
             -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
-            -var "DIGITALOCEAN_TOKEN=${{ secrets.DIGITALOCEAN_TOKEN }}"
+            -var "do_token=${{ secrets.DIGITALOCEAN_TOKEN }}"
