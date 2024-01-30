@@ -43,7 +43,7 @@ jobs:
           cd config
           terraform apply -auto-approve \
             -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
-            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
+            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var "CLUSTER_NAME"="api-cluster"
 
 
