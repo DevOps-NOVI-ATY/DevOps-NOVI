@@ -5,7 +5,7 @@ variable "DATABASE_URL" {
 }
 
 variable "CLUSTER_NAME" {
-  description = "kubernetes cluster name"
+  description = "Kubernetes cluster name"
   type        = string
 }
 
@@ -36,7 +36,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
     auto_scale = true
     min_nodes  = 1
     max_nodes  = 3
-	tags = "api"
+    tags       = ["api"]
   }
-  tags = "api"
+  tags = ["api"]
 }
