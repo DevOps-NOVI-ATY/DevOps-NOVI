@@ -4,6 +4,8 @@ variable "DATABASE_URL" {
   sensitive   = true
 }
 
+variable "DIGITALOCEAN_ACCESS_TOKEN" {}
+
 terraform {
   required_providers {
     digitalocean = {
@@ -13,15 +15,13 @@ terraform {
   }
 }
 
-variable "DIGITALOCEAN_ACCESS_TOKEN" {}
-
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
   token = var.DIGITALOCEAN_ACCESS_TOKEN
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
-  name    = "api-cluster2"
+  name    = "api-cluster"
   region  = "ams3"
   version = "1.29.0-do.0"
 
@@ -35,46 +35,46 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
 }
 
 resource "kubernetes_namespace" "api" {
-    metadata {
-        name = "novi-api"
-    }
+  metadata {
+    name = "novi-api"
+  }
 }
 
 resource "kubernetes_deployment" "noviAPI" {
-	metadata {
-		name      = "novi-api-deployment"
-		namespace = kubernetes_namespace.api.metadata[0].name
-	}
+  metadata {
+    name      = "novi-api-deployment"
+    namespace = kubernetes_namespace.api.metadata[0].name
+  }
 
-	spec {
-		replicas = 5
+  spec {
+    replicas = 5
 
-		selector {
-		match_labels = {
-			app = "novi-api"
-		}
-		}
+    selector {
+      match_labels = {
+        app = "novi-api"
+      }
+    }
 
-		template {
-			metadata {
-				labels = {
-				app = "novi-api"
-				}
-			}
+    template {
+      metadata {
+        labels = {
+          app = "novi-api"
+        }
+      }
 
-			spec {
-				container{
-					image = "registry.digitalocean.com/dev-ops-novi-api/api"
-					image_pull_policy = "IfNotPresent"
-					name = "devops-novi-api"
-					env {
-						name  = "DATABASE_URL"
-						value = var.DATABASE_URL
-					}
-				}
-			}
-		}
-	}
+      spec {
+        container {
+          image            = "registry.digitalocean.com/dev-ops-novi-api/api"
+          image_pull_policy = "IfNotPresent"
+          name             = "devops-novi-api"
+          env {
+            name  = "DATABASE_URL"
+            value = var.DATABASE_URL
+          }
+        }
+      }
+    }
+  }
 }
 
 resource "digitalocean_loadbalancer" "lb" {
@@ -89,5 +89,5 @@ resource "digitalocean_loadbalancer" "lb" {
     target_protocol = "http"
   }
 
-  droplet_ids = digitalocean_kubernetes_cluster.kubernetes-api-cluster.node_pool.*.id
+  droplet_ids = [element(digitalocean_kubernetes_cluster.kubernetes-api-cluster.node_pool.*.id, 0)]
 }
