@@ -27,7 +27,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
 
   node_pool {
     name       = "api-pool"
-    size       = "s-1vcpu-1gb"  # Change to the smallest droplet size
+    size       = "s-2vcpu-2gb"
     auto_scale = true
     min_nodes  = 1
     max_nodes  = 3
