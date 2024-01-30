@@ -63,4 +63,4 @@ jobs:
           kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yaml
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
