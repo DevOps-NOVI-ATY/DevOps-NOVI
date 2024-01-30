@@ -10,10 +10,10 @@ jobs:
       - name: Checkout the repo 
         uses: actions/checkout@v2
 
-      # - name: Install doctl 
-      #   uses: digitalocean/action-doctl@v2
-      #   with:
-      #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       # - name: Build image 
       #   run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
