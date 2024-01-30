@@ -1,0 +1,47 @@
+# kubernetes-manifests.yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: novi-api
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: novi-api-deployment
+  namespace: novi-api
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: novi-api
+  template:
+    metadata:
+      labels:
+        app: novi-api
+    spec:
+      containers:
+        - name: devops-novi-api
+          image: registry.digitalocean.com/dev-ops-novi-api/api
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DATABASE_URL
+              value: ${DATABASE_URL}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: novi-api-lb
+  namespace: novi-api
+spec:
+  selector:
+    app: novi-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
