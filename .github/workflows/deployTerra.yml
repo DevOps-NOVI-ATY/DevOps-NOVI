@@ -27,13 +27,13 @@ jobs:
       - name: folder structure
         run: ls
 
-      - name: Navigate to Terraform directory
-        run: cd config
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.15.0
+          
+      - name: Navigate to Terraform directory
+        run: cd config
 
       - name: Terraform Init
         run: terraform init
