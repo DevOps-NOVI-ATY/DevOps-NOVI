@@ -4,6 +4,11 @@ variable "DATABASE_URL" {
   sensitive   = true
 }
 
+variable "CLUSTER_NAME" {
+  description = "kubernetes cluster name"
+  type        = string
+}
+
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 
 terraform {
@@ -21,7 +26,7 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
-  name    = "api-cluster"
+  name    = var.CLUSTER_NAME
   region  = "ams3"
   version = "1.29.0-do.0"
 
