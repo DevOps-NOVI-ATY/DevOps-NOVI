@@ -36,7 +36,11 @@ jobs:
       - name: Terraform Init
         run: |
           cd config
-          terraform init     
+          terraform init   
+
+      - name: Import current resources   
+        run: |
+          terraform import digitalocean_kubernetes_cluster.kubernetes-api-cluster $(doctl kubernetes cluster list --format ID --no-header)   
 
       - name: Terraform Plan
         run: |
@@ -62,8 +66,8 @@ jobs:
       
       - name: Create or update secrets
         run: |
-          kubectl delete secret api-registry || true
-          kubectl delete secret database-secret || true
+          # kubectl delete secret api-registry || true
+          # kubectl delete secret database-secret || true
           kubectl create secret generic api-registry --from-file=.dockerconfigjson=docker-config.json --type=kubernetes.io/dockerconfigjson
           kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
       
