@@ -70,10 +70,4 @@ resource "digitalocean_database_cluster" "database-cluster" {
   size           = "db-s-1vcpu-1gb"
   region         = "ams3"
   node_count     = var.CREATE_NEW_DATABASE_CLUSTER ? 1 : 0
-  maintenance_window {
-    day         = "tue"
-    hour        = 10
-    pre_window  = "1h"
-    post_window = "1h"
-  }
 }
