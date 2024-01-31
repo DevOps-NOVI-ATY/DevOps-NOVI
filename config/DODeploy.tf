@@ -1,3 +1,9 @@
+variable "CREATE_NEW_CLUSTER" {
+  description = "Set to true if you want to create a new cluster"
+  type        = bool
+  default     = true
+}
+
 variable "DATABASE_URL" {
   description = "Database connection URL"
   type        = string
@@ -20,13 +26,18 @@ terraform {
   }
 }
 
-# Configure the DigitalOcean Provider
 provider "digitalocean" {
   token = var.DIGITALOCEAN_ACCESS_TOKEN
 }
 
+data "digitalocean_kubernetes_cluster" "existing_cluster" {
+  count = var.CREATE_NEW_CLUSTER ? 0 : 1
+  name  = var.CLUSTER_NAME
+}
+
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
-  name    = var.CLUSTER_NAME
+  count = var.CREATE_NEW_CLUSTER ? 1 : 0
+  name  = var.CLUSTER_NAME
   region  = "ams3"
   version = "1.29.0-do.0"
 
