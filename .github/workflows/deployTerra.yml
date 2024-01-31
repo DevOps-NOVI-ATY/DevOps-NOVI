@@ -44,16 +44,20 @@ jobs:
           terraform import \
             -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
             digitalocean_kubernetes_cluster.kubernetes-api-cluster \
             $(doctl kubernetes cluster list --format ID --no-header)
 
           terraform import \
             -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
             -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
             digitalocean_database_cluster.database-cluster \
             $(doctl databases list --format ID --no-header)
+
+          terraform import \
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
+            digitalocean_container_registry.container-registry \
+            $(doctl registry get --format Name --no-header)
 
       - name: Terraform Plan
         run: |
