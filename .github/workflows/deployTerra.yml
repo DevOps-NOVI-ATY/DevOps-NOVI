@@ -28,30 +28,41 @@ jobs:
       - name: Import current resources
         run: |
           cd config 
-
-          terraform import \
-            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
-            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
-            digitalocean_container_registry.container-registry \
-            $(doctl registry get --format Name --no-header)
-
-          terraform import \
-            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
-            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
-            digitalocean_database_cluster.database-cluster \
-            $(doctl databases list --format ID --no-header)  
+          if doctl kubernetes cluster list --format ID --no-header | grep -q "api-cluster"; then
+            terraform import \
+              -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+              -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+              -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+              -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
+              digitalocean_container_registry.container-registry \
+              $(doctl registry get --format Name --no-header)
+          else
+            echo "Kubernetes Cluster does not exist. Skipping import."
+          fi
           
-          terraform import \
-            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
-            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
-            digitalocean_kubernetes_cluster.kubernetes-api-cluster \
-            $(doctl kubernetes cluster list --format ID --no-header)
+          if doctl databases list --format ID --no-header | grep -q "database-devops-novi-api"; then
+            terraform import \
+              -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+              -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+              -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+              -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
+              digitalocean_database_cluster.database-cluster \
+              $(doctl databases list --format ID --no-header)  
+          else
+            echo "Database Cluster does not exist. Skipping import."
+          fi
+
+          if doctl registry get --format Name --no-header | grep -q "dev-ops-novi-api"; then 
+            terraform import \
+              -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+              -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+              -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+              -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
+              digitalocean_kubernetes_cluster.kubernetes-api-cluster \
+              $(doctl kubernetes cluster list --format ID --no-header)
+          else
+            echo "Container Registry does not exist. Skipping import."
+          fi  
       
       - name: Terraform Plan
         run: |
