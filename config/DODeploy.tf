@@ -10,12 +10,6 @@ variable "CREATE_NEW_DATABASE_CLUSTER" {
   default     = true
 }
 
-variable "DATABASE_URL" {
-  description = "Database connection URL"
-  type        = string
-  sensitive   = true
-}
-
 variable "KUBERNETES_CLUSTER_NAME" {
   description = "Kubernetes cluster name"
   type        = string

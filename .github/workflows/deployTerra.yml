@@ -42,7 +42,6 @@ jobs:
         run: |
           cd config 
           terraform import \
-            -var="DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
             -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
@@ -50,18 +49,16 @@ jobs:
             $(doctl kubernetes cluster list --format ID --no-header)
 
           terraform import \
-            -var="DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
             -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
             digitalocean_database_cluster.database-cluster \
-            $(doctl databases cluster list --format ID --no-header)
+            $(doctl databases list --format ID --no-header)
 
       - name: Terraform Plan
         run: |
           cd config
           terraform plan \
-            -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var "KUBERNETES_CLUSTER_NAME=api-cluster" \
             -var "DATABASE_CLUSTER_NAME=database-devops-novi-api"
@@ -70,10 +67,14 @@ jobs:
         run: |
           cd config
           terraform apply -auto-approve \
-            -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var "KUBERNETES_CLUSTER_NAME=api-cluster" \
             -var "DATABASE_CLUSTER_NAME=database-devops-novi-api" 
+      
+      - name: Get New Database URL
+        run: |
+          DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
+          echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV      
 
       - name: Update deployment file
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/dev-ops-novi-api/api:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
