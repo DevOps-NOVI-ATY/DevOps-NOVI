@@ -28,7 +28,7 @@ jobs:
       - name: Import current resources
         run: |
           cd config 
-          if doctl kubernetes cluster list --format ID --no-header | grep -q "api-cluster"; then
+          if doctl kubernetes cluster list --format Name --no-header | grep -q "api-cluster"; then
             terraform import \
               -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
               -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
@@ -40,7 +40,7 @@ jobs:
             echo "Kubernetes Cluster does not exist. Skipping import."
           fi
           
-          if doctl databases list --format ID --no-header | grep -q "database-devops-novi-api"; then
+          if doctl databases list --format Name --no-header | grep -q "database-devops-novi-api"; then
             terraform import \
               -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
               -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
