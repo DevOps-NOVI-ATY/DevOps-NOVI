@@ -15,9 +15,6 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -73,6 +70,9 @@ jobs:
             -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
             -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
       
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+
       - name: Get New Database URL
         run: |
           DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
