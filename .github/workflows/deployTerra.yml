@@ -33,6 +33,11 @@ jobs:
         with:
           terraform_version: 0.15.0
 
+      - name: Terraform Init
+        run: |
+          cd config
+          terraform init     
+
       - name: Terraform Plan
         run: |
           cd config
