@@ -104,7 +104,7 @@ def get_filtered_comics(query):
             filtered_comics.append(comic)
     
     #check if comics have to be in release order
-    if "volgorde" in query:
+    if "sorted" in query:
         filtered_comics = sorted(filtered_comics, key= lambda i: i["release"])
     
     return return_or_404(resource="", result=filtered_comics)
