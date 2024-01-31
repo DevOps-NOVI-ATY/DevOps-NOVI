@@ -93,5 +93,5 @@ resource "digitalocean_container_registry" "container-registry" {
   count = var.CREATE_NEW_CONTAINER_REGISTRY ? 1 : 0
   name  = var.CONTAINER_REGISTRY_NAME
   region = "ams3"
-  subscription_tier = "basic"
+  subscription_tier_slug = "basic"
 }
