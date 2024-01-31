@@ -88,7 +88,7 @@ jobs:
       - name: Get New Database URL
         run: |
           DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
-          echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV      
+          echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV
 
       - name: Build image 
         run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
