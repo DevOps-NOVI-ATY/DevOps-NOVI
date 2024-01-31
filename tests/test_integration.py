@@ -25,7 +25,7 @@ def test_comics_status_code():
     assert response.status_code == 200
 
 def test_comics_status_code_404():
-    response = client.get("/comics/?characters=unknown")
+    response = client.get("/comics/?character=unknown")
     assert response.status_code == 404
 
 def test_comics_response_filtered():
