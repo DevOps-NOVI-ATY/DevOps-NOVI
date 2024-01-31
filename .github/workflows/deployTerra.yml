@@ -41,7 +41,10 @@ jobs:
       - name: Import current resources   
         run: |
           cd config 
-          terraform import digitalocean_kubernetes_cluster.kubernetes-api-cluster $(doctl kubernetes cluster list --format ID --no-header)   
+          terraform import digitalocean_kubernetes_cluster.kubernetes-api-cluster $(doctl kubernetes cluster list --format ID --no-header) \
+            -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
+            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var "CLUSTER_NAME"="api-cluster" 
 
       - name: Terraform Plan
         run: |
