@@ -1,11 +1,11 @@
 variable "CREATE_NEW_KUBERNETES_CLUSTER" {
-  description = "Set to true if you want to create a new cluster"
+  description = "Set to true if you want to create a new Kubernetes cluster"
   type        = bool
   default     = true
 }
 
 variable "CREATE_NEW_DATABASE_CLUSTER" {
-  description = "Set to true if you want to create a new cluster"
+  description = "Set to true if you want to create a new Database cluster"
   type        = bool
   default     = true
 }
@@ -41,7 +41,7 @@ provider "digitalocean" {
   token = var.DIGITALOCEAN_ACCESS_TOKEN
 }
 
-data "digitalocean_kubernetes_cluster" "existing_cluster" {
+data "digitalocean_kubernetes_cluster" "existing_kubernetes_cluster" {
   count = var.CREATE_NEW_KUBERNETES_CLUSTER ? 0 : 1
   name  = var.KUBERNETES_CLUSTER_NAME
 }
@@ -63,12 +63,13 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   tags = ["api"]
 }
 
-data "digitalocean_database_cluster" "existing_cluster" {
+data "digitalocean_database_cluster" "existing_database_cluster" {
   count = var.CREATE_NEW_DATABASE_CLUSTER ? 0 : 1
-  name  = var.KUBERNETES_CLUSTER_NAME
+  name  = var.DATABASE_CLUSTER_NAME
 }
 
 resource "digitalocean_database_cluster" "database-cluster" {
+  count = var.CREATE_NEW_DATABASE_CLUSTER ? 1 : 0
   name           = var.DATABASE_CLUSTER_NAME
   engine         = "pg"
   version        = "15"
