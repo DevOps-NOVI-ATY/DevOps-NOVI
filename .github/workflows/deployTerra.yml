@@ -40,6 +40,7 @@ jobs:
 
       - name: Import current resources   
         run: |
+          cd config 
           terraform import digitalocean_kubernetes_cluster.kubernetes-api-cluster $(doctl kubernetes cluster list --format ID --no-header)   
 
       - name: Terraform Plan
