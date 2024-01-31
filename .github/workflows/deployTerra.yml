@@ -15,15 +15,6 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Build image 
-        run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
-
-      - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
-      
-      - name: Push image to DO Container Registry 
-        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
-
       - name: navigate to Terrafom folder before setup
         run: |
           cd config
@@ -88,6 +79,15 @@ jobs:
           DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
           echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV      
 
+      - name: Build image 
+        run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
+
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+      
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
+        
       - name: Update deployment file
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/dev-ops-novi-api/api:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
 
