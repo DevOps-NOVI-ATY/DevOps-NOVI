@@ -34,8 +34,8 @@ jobs:
               -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
               -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
               -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
-              digitalocean_container_registry.container-registry \
-              $(doctl registry get --format Name --no-header)
+              digitalocean_kubernetes_cluster.kubernetes-api-cluster \
+              $(doctl kubernetes cluster list --format ID --no-header)
           else
             echo "Kubernetes Cluster does not exist. Skipping import."
           fi
@@ -58,8 +58,8 @@ jobs:
               -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
               -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
               -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
-              digitalocean_kubernetes_cluster.kubernetes-api-cluster \
-              $(doctl kubernetes cluster list --format ID --no-header)
+              digitalocean_container_registry.container-registry \
+              $(doctl registry get --format Name --no-header)
           else
             echo "Container Registry does not exist. Skipping import."
           fi  
