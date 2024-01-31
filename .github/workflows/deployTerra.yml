@@ -92,7 +92,7 @@ jobs:
       
       - name: Create or update secrets
         run: |
-          kubectl delete secret api-registry || true
+          # kubectl delete secret api-registry || true
           # kubectl delete secret database-secret || true
           kubectl create secret generic api-registry --from-file=.dockerconfigjson=docker-config.json --type=kubernetes.io/dockerconfigjson  || true
           kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)  || true
