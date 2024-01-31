@@ -69,17 +69,19 @@ jobs:
         run: |
           cd config
           terraform plan \
-            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var "KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var "DATABASE_CLUSTER_NAME=database-devops-novi-api"
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
 
       - name: Terraform Apply 
         run: |
           cd config
           terraform apply -auto-approve \
-            -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-            -var "KUBERNETES_CLUSTER_NAME=api-cluster" \
-            -var "DATABASE_CLUSTER_NAME=database-devops-novi-api" 
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
       
       - name: Get New Database URL
         run: |
