@@ -38,7 +38,7 @@ jobs:
           cd config
           terraform init   
 
-      - name: Import current resources   
+      - name: Import current resources
         run: |
           cd config 
           terraform import \
@@ -51,7 +51,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd config
-          terraform plan \ 
+          terraform plan \
             -var "DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)" \
             -var "DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
             -var "CLUSTER_NAME"="api-cluster" 
