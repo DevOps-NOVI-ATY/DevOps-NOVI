@@ -27,4 +27,5 @@ async def schema_check() -> list[schemas.comic]:
     result = {}
     result["test"] = 0
     result["case"] = 5
-    return result
+
+    return [result]
