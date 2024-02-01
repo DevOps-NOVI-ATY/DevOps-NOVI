@@ -102,16 +102,16 @@ jobs:
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
       
-      - name: Create or update secrets
-        run: |
-          kubectl delete secret api-registry || true
-          kubectl delete secret database-secret || true
-          kubectl create secret generic api-registry --from-file=.dockerconfigjson=docker-config.json --type=kubernetes.io/dockerconfigjson  || true
-          kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)  || true
+      # - name: Create or update secrets
+      #   run: |
+      #     kubectl delete secret api-registry || true
+      #     kubectl delete secret database-secret || true
+      #     kubectl create secret generic api-registry --from-file=.dockerconfigjson=docker-config.json --type=kubernetes.io/dockerconfigjson  || true
+      #     kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)  || true
       
-      - name: Add registry to cluster
-        run: | 
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
+      # - name: Add registry to cluster
+      #   run: | 
+      #     kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml

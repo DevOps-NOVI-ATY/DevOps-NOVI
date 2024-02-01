@@ -56,6 +56,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   name  = var.KUBERNETES_CLUSTER_NAME
   region  = "ams3"
   version = "1.29.0-do.0"
+  registry_integration = true
 
   node_pool {
     name       = "api-pool"
