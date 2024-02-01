@@ -19,3 +19,12 @@ async def root(req:Request) -> list[schemas.comic]:
         return return_or_404(resource="Comic books", result=get_all_comics())
     else:
         return return_or_404(resource="Comic books", result=get_filtered_comics(query))
+
+
+#GET request to root of endpoint comics
+@router.get('/schema-check')
+async def schema_check() -> list[schemas.comic]:
+    result = {}
+    result["test"] = 0
+    result["case"] = 5
+    return result
