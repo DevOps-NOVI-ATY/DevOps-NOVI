@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - terraform
+      - main
 
 jobs:
   build_and_push:
@@ -105,10 +105,6 @@ jobs:
       - name: Create or update secrets
         run: |
           kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)  || true
-      
-      # - name: Add registry to cluster
-      #   run: | 
-      #     kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "api-registry"}]}'
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
