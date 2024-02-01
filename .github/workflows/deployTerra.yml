@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - terraform
 
 jobs:
   build_and_push:

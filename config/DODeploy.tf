@@ -52,6 +52,7 @@ data "digitalocean_kubernetes_cluster" "existing_kubernetes_cluster" {
 }
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
+  depends_on = [ digitalocean_container_registry.container-registry, digitalocean_database_cluster.database-cluster ]
   count = var.CREATE_NEW_KUBERNETES_CLUSTER ? 1 : 0
   name  = var.KUBERNETES_CLUSTER_NAME
   region  = "ams3"
