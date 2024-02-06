@@ -3,37 +3,7 @@ data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
     name = var.KUBERNETES_CLUSTER_NAME
 }
-resource "helm_release" "loki" {
 
-  name       = "loki"
-
-  repository = "https://grafana.github.io/helm-charts"
-
-  chart      = "loki-stack"
-
-  version    = "2.10.1"
-
-  namespace = "loki-stack"
- 
-  set {
-
-    name  = "grafana.enabled"
-
-    value = "true"
-
-  }
- 
-  set {
-
-    name  = "promtail.enabled"
-
-    value = "true"
-
-  }
-
-  depends_on = [kubernetes_namespace.loki-stack]
-
-}
 
 provider "kubernetes" {
 
