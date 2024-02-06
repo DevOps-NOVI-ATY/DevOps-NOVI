@@ -25,11 +25,11 @@ provider "helm" {
 
     host  = digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint[0]
 
-    token = digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token[0]
+    token = digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
  
     cluster_ca_certificate = base64decode(
 
-      digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].cluster_ca_certificate[0]
+      digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].cluster_ca_certificate
 
     )
 
