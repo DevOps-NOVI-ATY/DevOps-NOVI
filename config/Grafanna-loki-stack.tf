@@ -3,7 +3,6 @@ data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
     name = var.KUBERNETES_CLUSTER_NAME
 }
-[1:45 PM] Thom Lamens
 resource "helm_release" "loki" {
 
   name       = "loki"
