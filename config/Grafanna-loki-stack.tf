@@ -1,7 +1,7 @@
 
 data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
-    name = var.KUBERNETES_CLUSTER_NAME
+    name = api-cluster
 }
 
 
