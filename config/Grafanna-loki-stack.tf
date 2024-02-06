@@ -3,7 +3,22 @@ data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
     name = api-cluster
 }
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.0.1"
+    }
+  }
+}
 
+provider "digitalocean" {
+  token = var.DIGITALOCEAN_ACCESS_TOKEN
+}
 
 provider "kubernetes" {
 
