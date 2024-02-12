@@ -138,12 +138,4 @@ resource "helm_release" "loki" {
     value = "true"
   }
   count      = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
-
-  provisioner "local-exec" {
-    command = <<EOF
-      kubectl label deployment loki app=api
-    EOF
-    interpreter = ["bash", "-c"]
-    when        = "create"
-  }
 }
