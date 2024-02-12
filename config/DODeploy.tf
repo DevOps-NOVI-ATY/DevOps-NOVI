@@ -123,7 +123,6 @@ resource "kubernetes_namespace" "loki-stack" {
     annotations = {
       name = "loki-stack"
     }
-  
     name = "loki-stack"
   }
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
