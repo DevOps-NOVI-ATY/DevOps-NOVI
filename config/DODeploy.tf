@@ -108,24 +108,22 @@ data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
 }    
 
 provider "kubernetes" {
-  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
   host  = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint
   token = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
 
   cluster_ca_certificate = base64decode(
     data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].cluster_ca_certificate
   )
-
+  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
 }
  
 provider "helm" {
-  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
   kubernetes {
     host                   = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint
     token                  = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
     cluster_ca_certificate = base64decode(data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].cluster_ca_certificate)
   }
-
+  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
 }
  
 resource "kubernetes_namespace" "loki-stack" {
@@ -138,7 +136,6 @@ resource "kubernetes_namespace" "loki-stack" {
   }
     depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
 }
-
 
   resource "helm_release" "loki" {
     name       = "loki"
