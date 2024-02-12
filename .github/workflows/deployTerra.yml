@@ -24,7 +24,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd config
-          terraform init   
+          terraform init
 
       - name: Import current resources
         run: |
