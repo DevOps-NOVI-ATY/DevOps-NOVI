@@ -119,7 +119,7 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     host                   = digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].endpoint
-    token                  = digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.token
+    token                  = var.DIGITALOCEAN_ACCESS_TOKEN
     cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.cluster_ca_certificate)
   }
 }
@@ -138,5 +138,4 @@ resource "helm_release" "loki" {
     value = "true"
   }
   count      = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
-  depends_on = [kubernetes_namespace.loki-stack]
 }
