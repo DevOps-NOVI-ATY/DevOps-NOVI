@@ -31,6 +31,12 @@ variable "CONTAINER_REGISTRY_NAME" {
   type        = string
 }
 
+variable "CREATE_NEW_HELM_RELEASE" {
+  description = "Set to true if you want to create a new Helm release"
+  type        = bool
+  default     = true
+}
+
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 terraform {
   required_providers {
@@ -118,31 +124,19 @@ provider "helm" {
   }
 }
  
-resource "kubernetes_namespace" "loki-stack" {
-  metadata {
-    annotations = {
-      name = "loki-stack"
-    }
-    name = "loki-stack"
+resource "helm_release" "loki" {
+  name       = "loki"
+  repository = "https://grafana.github.io/helm-charts"
+  chart      = "loki-stack"
+  version    = "2.10.1"
+  set {
+    name  = "grafana.enabled"
+    value = "true"
   }
-    depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
+  set {
+    name  = "promtail.enabled"
+    value = "true"
+  }
+  count      = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
+  depends_on = [kubernetes_namespace.loki-stack]
 }
-
-  resource "helm_release" "loki" {
-    name       = "loki"
-    repository = "https://grafana.github.io/helm-charts"
-    chart      = "loki-stack"
-    version    = "2.10.1"
-    namespace = "loki-stack"
-  
-    set {
-      name  = "grafana.enabled"
-      value = "true"
-    }
-  
-    set {
-      name  = "promtail.enabled"
-      value = "true"
-    }
-    depends_on = [kubernetes_namespace.loki-stack]
-  }

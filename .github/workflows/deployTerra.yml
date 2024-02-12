@@ -64,6 +64,24 @@ jobs:
           else
             echo "Container Registry does not exist. Skipping import."
           fi  
+
+          if kubectl get services -n loki-stack -o custom-columns=NAME:.metadata.name | head -n 2 | tail -n 1 | grep -q "loki"; then
+            # Run kubectl command to get services and extract UIDs
+            SERVICE_UIDS=$(kubectl get services -o custom-columns=UID:.metadata.uid | tail -n +2)
+            
+            # Import each service using Terraform
+            for UID in $SERVICE_UIDS; do
+              terraform import \
+                -var="SERVICE_UID=$UID" \
+                -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+                -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+                -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+                -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" \
+                helm_release.loki $UID
+            done
+          else
+            echo "Loki-stack does not exist. Skipping import."
+          fi
       
       - name: Terraform Plan
         run: |
