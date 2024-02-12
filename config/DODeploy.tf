@@ -102,11 +102,6 @@ resource "digitalocean_container_registry" "container-registry" {
   subscription_tier_slug = "basic"
 }
 
-data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
-  name = "api-cluster"
-  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
-}    
-
 provider "kubernetes" {
   host  = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint
   token = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
