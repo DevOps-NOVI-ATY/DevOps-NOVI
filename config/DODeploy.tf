@@ -123,12 +123,13 @@ provider "helm" {
     cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.cluster_ca_certificate)
   }
 }
- 
+
 resource "helm_release" "loki" {
   name       = "loki"
   repository = "https://grafana.github.io/helm-charts"
   chart      = "loki-stack"
   version    = "2.10.1"
+  
   set {
     name  = "grafana.enabled"
     value = "true"
@@ -137,5 +138,15 @@ resource "helm_release" "loki" {
     name  = "promtail.enabled"
     value = "true"
   }
-  count      = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
+  
+  set {
+    name  = "grafana.adminUser"
+    value = "admin_username"  # Replace with your desired admin username
+  }
+  set {
+    name  = "grafana.adminPassword"
+    value = "admin_password"  # Replace with your desired admin password
+  }
+  
+  count = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
 }
