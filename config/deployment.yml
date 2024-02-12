@@ -58,6 +58,6 @@ spec:
       protocol: TCP
       port: 84
       targetPort: 7946
-    selector:
-      app: api
+  - selector:
+    app: api
   
