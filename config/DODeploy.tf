@@ -60,7 +60,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   count = var.CREATE_NEW_KUBERNETES_CLUSTER ? 1 : 0
   name  = var.KUBERNETES_CLUSTER_NAME
   region  = "ams3"
-  version = "1.29.0-do.0"
+  version = "1.29.1-do.0"
   registry_integration = true
 
   node_pool {
