@@ -32,7 +32,6 @@ variable "CONTAINER_REGISTRY_NAME" {
 }
 
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
-
 terraform {
   required_providers {
     digitalocean = {
