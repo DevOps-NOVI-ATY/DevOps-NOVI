@@ -108,6 +108,7 @@ data "digitalocean_kubernetes_cluster" "kubernetes-api-cluster"{
 }    
 
 provider "kubernetes" {
+  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
   host  = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint
   token = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
 
@@ -118,6 +119,7 @@ provider "kubernetes" {
 }
  
 provider "helm" {
+  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
   kubernetes {
     host                   = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.endpoint
     token                  = data.digitalocean_kubernetes_cluster.kubernetes-api-cluster.kube_config[0].token
