@@ -42,30 +42,22 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8000
-      selector:
-        app: api
     - name: loki
       protocol: TCP
       port: 81
       targetPort: 80
-      selector:
-        app: loki
     - name: loki2
       protocol: TCP
       port: 82
       targetPort: 3000
-      selector:
-        app: loki
     - name: loki3
       protocol: TCP
       port: 83
       targetPort: 3100
-      selector:
-        app: loki 
     - name: loki4
       protocol: TCP
       port: 84
       targetPort: 7946
-      selector:
-        app: loki 
+    selector:
+      app: api
   

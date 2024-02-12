@@ -141,7 +141,7 @@ resource "helm_release" "loki" {
 
   rovisioner "local-exec" {
     command = <<EOF
-      kubectl label deployment loki app=loki
+      kubectl label deployment loki app=api
     EOF
     interpreter = ["bash", "-c"]
     when        = create
