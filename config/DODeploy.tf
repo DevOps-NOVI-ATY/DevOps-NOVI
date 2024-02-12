@@ -38,6 +38,7 @@ terraform {
     digitalocean = {
       source  = "digitalocean/digitalocean"
       version = "~> 2.0"
+      disable_checkpoint = true
     }
     helm = {
       source  = "hashicorp/helm"
