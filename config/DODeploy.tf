@@ -34,7 +34,6 @@ variable "CONTAINER_REGISTRY_NAME" {
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 
 terraform {
-  disable_checkpoint = true
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
