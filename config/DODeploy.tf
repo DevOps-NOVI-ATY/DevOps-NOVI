@@ -110,7 +110,7 @@ provider "kubernetes" {
     digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.cluster_ca_certificate
   )
 }
- 
+
 provider "helm" {
   kubernetes {
     host                   = digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].endpoint
