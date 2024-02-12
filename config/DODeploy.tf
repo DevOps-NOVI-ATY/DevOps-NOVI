@@ -34,11 +34,11 @@ variable "CONTAINER_REGISTRY_NAME" {
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 
 terraform {
+  disable_checkpoint = true
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
       version = "~> 2.0"
-      disable_checkpoint = true
     }
     helm = {
       source  = "hashicorp/helm"
