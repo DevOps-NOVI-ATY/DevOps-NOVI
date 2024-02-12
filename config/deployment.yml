@@ -42,33 +42,21 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8000
-  selector:
-    app: api
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: loki-grafana-service
-spec:
-  type: LoadBalancer
-  ports:
-    - name: http
+    - name: loki
       protocol: TCP
-      port: 3000
+      port: 81
+      targetPort: 80
+    - name: loki2
+      protocol: TCP
+      port: 82
       targetPort: 3000
-  selector:
-    app: api   
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: loki-service
-spec:
-  type: LoadBalancer
-  ports:
-    - name: http
+    - name: loki3
       protocol: TCP
-      port: 3100
-      targetPort: 3100
+      port: 83
+      targetPort: 3100 
+    - name: loki4
+      protocol: TCP
+      port: 84
+      targetPort: 7946 
   selector:
-    app: api      
+    app: api 
