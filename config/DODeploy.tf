@@ -30,12 +30,18 @@ variable "CONTAINER_REGISTRY_NAME" {
   description = "Container Registry name"
   type        = string
 }
-
-variable "CREATE_NEW_HELM_RELEASE" {
-  description = "Set to true if you want to create a new Helm release"
+variable "CREATE_LOKI_RELEASE" {
+  description = "Set to true if you want to create a new Helm release for Loki"
   type        = bool
   default     = true
 }
+
+variable "CREATE_PROMETHEUS_RELEASE" {
+  description = "Set to true if you want to create a new Helm release for Prometheus"
+  type        = bool
+  default     = true
+}
+
 
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 terraform {
@@ -123,7 +129,7 @@ provider "helm" {
     cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.cluster_ca_certificate)
   }
 }
-
+#loki helm release configuratie 
 resource "helm_release" "loki" {
   name       = "loki"
   repository = "https://grafana.github.io/helm-charts"
@@ -148,5 +154,32 @@ resource "helm_release" "loki" {
     value = "admin_password"  # Replace with your desired admin password
   }
   
-  count = var.CREATE_NEW_HELM_RELEASE ? 1 : 0
+  count = var.CREATE_LOKI_RELEASE ? 1 : 0
+}
+
+# Prometheus Helm release configuration
+resource "helm_release" "prometheus" {
+  name       = "prometheus"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  version    = "56.3.0"
+  values = [
+    file("${path.module}/../config/dashboard/values.yaml")
+  ]
+
+  set {
+    name  = "prometheus.enabled"
+    value = "true"
+  }
+  set {
+    name  = "alertmanager.enabled"
+    value = "true"
+  }
+  set {
+    name  = "grafana.enabled"
+    value = "false" # If you already have a Grafana instance via the Loki-stack, unless you want a separate one
+  }
+  # Add more configurations as needed
+
+  count = var.CREATE_PROMETHEUS_RELEASE ? 1 : 0
 }
