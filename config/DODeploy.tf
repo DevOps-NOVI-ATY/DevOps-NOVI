@@ -136,7 +136,7 @@ resource "helm_release" "loki" {
   chart      = "loki-stack"
   version    = "2.10.1"
   values = [
-    file("${path.module}/dashboard/values.yaml")
+    "${file("${path.module}/dashboard/values.yaml")}"
   ]
   
   set {
