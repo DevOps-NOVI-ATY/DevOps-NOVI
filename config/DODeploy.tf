@@ -195,3 +195,23 @@ resource "helm_release" "prometheus" {
 
   count = var.CREATE_PROMETHEUS_RELEASE ? 1 : 0
 }
+
+resource "kubernetes_config_map" "grafana-dashboards-custom" {
+  metadata {
+    name      = "grafana-dashboard-custom"
+
+ 
+    labels = {
+      grafana_dashboard = 1
+    }
+ 
+    annotations = {
+      k8s-sidecar-target-directory = "/tmp/dashboards/custom"
+    }
+  }
+ 
+  data = {
+    "monitoring-app.json" = file("${path.module}/dashboard/monitoring-app.json"),
+  }
+  
+}
