@@ -166,6 +166,17 @@ resource "helm_release" "prometheus" {
   values = [
     file("${path.module}/../config/dashboard/values.yaml")
   ]
+   timeout = 2000
+
+  set {
+    name  = "podSecurityPolicy.enabled"
+    value = true
+  }
+
+  set {
+    name  = "server.persistentVolume.enabled"
+    value = false
+  }
 
   set {
     name  = "prometheus.enabled"

@@ -490,7 +490,7 @@ server:
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources: {}
-    # limits:
+     #limits:
     #   cpu: 500m
     #   memory: 512Mi
     # requests:
