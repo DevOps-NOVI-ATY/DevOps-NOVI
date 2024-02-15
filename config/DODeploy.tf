@@ -135,6 +135,9 @@ resource "helm_release" "loki" {
   repository = "https://grafana.github.io/helm-charts"
   chart      = "loki-stack"
   version    = "2.10.1"
+  values = [
+    file("${path.module}/dashboard/values.yaml")
+  ]
   
   set {
     name  = "grafana.enabled"
@@ -163,9 +166,7 @@ resource "helm_release" "prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   version    = "56.3.0"
-  values = [
-    file("${path.module}/../config/dashboard/values.yaml")
-  ]
+ 
    timeout = 2000
 
   set {
