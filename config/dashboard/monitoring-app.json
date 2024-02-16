@@ -788,11 +788,11 @@
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "expr": "{app=\"dungeon-run\"}",
+            "expr": "{app=\"api\"}",
             "refId": "A"
           }
         ],
-        "title": "Dungeon-run logs",
+        "title": "Comic books logs",
         "type": "logs"
       },
       {
@@ -874,11 +874,11 @@
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "expr": "rate({app=\"dungeon-run\"}[$__interval])",
+            "expr": "rate({app=\"api\"}[$__interval])",
             "refId": "A"
           }
         ],
-        "title": "Dungeon-run logs frequency",
+        "title": "Comic books logs frequency",
         "type": "timeseries"
       },
       {
@@ -910,11 +910,11 @@
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "expr": "{app=\"dungeon-run\"}|~ \"(WARNING|ERROR)\"",
+            "expr": "{app=\"api\"}|~ \"(WARNING|ERROR)\"",
             "refId": "A"
           }
         ],
-        "title": "Dungeon-run logs filterd on warnings and errors",
+        "title": "Comic books logs filterd on warnings and errors",
         "type": "logs"
       }
     ],
@@ -1036,7 +1036,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "Dungeon run dashboard",
+    "title": "Comic books dashboard",
     "uid": "bHiZ-4hSz",
     "version": 30,
     "weekStart": ""
