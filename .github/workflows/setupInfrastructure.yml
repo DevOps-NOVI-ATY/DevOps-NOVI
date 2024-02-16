@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - setup  
-      - feature_monitoring_logging_terraform    
+        
 
 jobs:
   build_and_push:
