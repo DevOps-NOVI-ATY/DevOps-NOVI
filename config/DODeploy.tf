@@ -68,6 +68,16 @@ resource "digitalocean_container_registry" "container-registry" {
   subscription_tier_slug = "basic"
 }
 
+resource "null_resource" "wait_for_cluster" {
+  # This resource depends on the Kubernetes cluster being provisioned
+  depends_on = [digitalocean_kubernetes_cluster.kubernetes-api-cluster]
+
+  # Execute a local provisioner
+  provisioner "local-exec" {
+    command = "sleep 45"  # Wait for 45 sec to startup cluster
+  }
+}
+
 provider "kubernetes" {
   host  = digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].endpoint
   token = digitalocean_kubernetes_cluster.kubernetes-api-cluster[0].kube_config.0.token
