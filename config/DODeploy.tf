@@ -107,6 +107,7 @@ resource "helm_release" "loki" {
     name  = "grafana.adminPassword"
     value = "admin_password"  # Replace with your desired admin password
   }
+}
 
 # Prometheus Helm release configuration
 resource "helm_release" "prometheus" {
