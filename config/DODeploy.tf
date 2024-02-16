@@ -56,6 +56,7 @@ resource "digitalocean_database_cluster" "database-cluster" {
   size           = "db-s-1vcpu-1gb"
   region         = "ams3"
   tags       	 = ["api"]
+  node_count     = 1
 }
 
 resource "digitalocean_container_registry" "container-registry" {
