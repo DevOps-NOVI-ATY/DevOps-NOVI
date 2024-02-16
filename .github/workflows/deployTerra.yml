@@ -15,6 +15,34 @@ jobs:
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.0
+
+      - name: Terraform Init
+        run: |
+          cd config
+          terraform init
+      
+      - name: Terraform Plan
+        run: |
+          cd config
+          terraform plan \
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
+
+      - name: Terraform Apply 
+        run: |
+          cd config
+          terraform apply -auto-approve \
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
       
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
