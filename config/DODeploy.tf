@@ -96,6 +96,7 @@ provider "helm" {
 }
 #loki helm release configuratie 
 resource "helm_release" "loki" {
+  depends_on = [null_resource.wait_for_cluster]
   name       = "loki"
   repository = "https://grafana.github.io/helm-charts"
   chart      = "loki-stack"

@@ -54,8 +54,8 @@ spec:
   ports:
     - name: loki
       protocol: TCP
-      port: 3000
+      port: 80
       targetPort: 3000
   selector:
-    app: loki
+    app.kubernetes.io/instance: loki
   
