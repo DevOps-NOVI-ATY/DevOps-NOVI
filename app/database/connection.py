@@ -8,7 +8,7 @@ import csv
 
 
 #Get DB URL from environment variables. if not available, use sqlite
-DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://user-name:strong-password@localhost:5433/api')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 
 #Create connection engine
