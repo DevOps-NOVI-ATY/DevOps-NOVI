@@ -1,0 +1,72 @@
+on:
+  push:
+    branches:
+      - setup  
+        
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.0
+
+      - name: Terraform Init
+        run: |
+          cd config
+          terraform init
+      
+      - name: Terraform Plan
+        run: |
+          cd config
+          terraform plan \
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
+
+      - name: Terraform Apply 
+        run: |
+          cd config
+          terraform apply -auto-approve \
+            -var="DIGITALOCEAN_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+            -var="KUBERNETES_CLUSTER_NAME=api-cluster" \
+            -var="DATABASE_CLUSTER_NAME=database-devops-novi-api" \
+            -var="CONTAINER_REGISTRY_NAME=dev-ops-novi-api" 
+      
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+
+      - name: Get New Database URL
+        run: |
+          DATABASE_URL=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)
+          echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV
+
+      - name: Build image 
+        run: docker build -t registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7) .
+      
+      - name: Push image to DO Container Registry 
+        run: docker push registry.digitalocean.com/dev-ops-novi-api/api:$(echo $GITHUB_SHA | head -c7)
+
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/dev-ops-novi-api/api:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 api-cluster
+      
+      - name: Create or update secrets
+        run: |
+          kubectl create secret generic database-secret --from-literal=database-url=$(doctl databases connection $(doctl databases list --format ID --no-header) --format URI --no-header)  || true
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml

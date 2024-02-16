@@ -44,3 +44,18 @@ spec:
       targetPort: 8000
   selector:
     app: api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: loki
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/name: grafana
+  
