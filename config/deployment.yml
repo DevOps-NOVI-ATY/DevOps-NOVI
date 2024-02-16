@@ -56,6 +56,10 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 3000
+    - name: loki2
+      protocol: TCP
+      port: 81
+      targetPort: 80
   selector:
-    app.kubernetes.io/instance: loki
+    app.kubernetes.io/name: grafana
   

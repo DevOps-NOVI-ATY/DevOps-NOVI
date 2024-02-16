@@ -1,9 +1,7 @@
 on:
   push:
     branches:
-      - setup
-      - feature_monitoring_logging_terraform
-      
+      - setup      
 
 jobs:
   build_and_push:
