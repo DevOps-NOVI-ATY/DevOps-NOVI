@@ -12,9 +12,9 @@
             "limit": 100,
             "matchAny": false,
             "tags": [],
-            "type": "dashboard"
+            "type": "Dashboard"
           },
-          "type": "dashboard"
+          "type": "Dashboard"
         }
       ]
     },
