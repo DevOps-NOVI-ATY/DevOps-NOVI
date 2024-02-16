@@ -33,6 +33,7 @@ provider "digitalocean" {
 
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   depends_on = [ digitalocean_container_registry.container-registry, digitalocean_database_cluster.database-cluster ]
+  count = 1
   name  = var.KUBERNETES_CLUSTER_NAME
   region  = "ams3"
   version = "1.29.1-do.0"
@@ -50,6 +51,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
 }
 
 resource "digitalocean_database_cluster" "database-cluster" {
+  count = 1
   name           = var.DATABASE_CLUSTER_NAME
   engine         = "pg"
   version        = "15"
@@ -60,6 +62,7 @@ resource "digitalocean_database_cluster" "database-cluster" {
 }
 
 resource "digitalocean_container_registry" "container-registry" {
+  count = 1
   name  = var.CONTAINER_REGISTRY_NAME
   region = "ams3"
   subscription_tier_slug = "basic"
@@ -108,6 +111,8 @@ resource "helm_release" "loki" {
     name  = "grafana.adminPassword"
     value = "admin_password"  # Replace with your desired admin password
   }
+  
+  count = 1
 }
 
 # Prometheus Helm release configuration
@@ -142,6 +147,8 @@ resource "helm_release" "prometheus" {
     value = "false" # If you already have a Grafana instance via the Loki-stack, unless you want a separate one
   }
   # Add more configurations as needed
+
+  count = 1
 }
 
 resource "kubernetes_config_map" "grafana-dashboards-custom" {
