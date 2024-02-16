@@ -1,15 +1,3 @@
-variable "CREATE_NEW_KUBERNETES_CLUSTER" {
-  description = "Set to true if you want to create a new Kubernetes cluster"
-  type        = bool
-  default     = true
-}
-
-variable "CREATE_NEW_DATABASE_CLUSTER" {
-  description = "Set to true if you want to create a new Database cluster"
-  type        = bool
-  default     = true
-}
-
 variable "KUBERNETES_CLUSTER_NAME" {
   description = "Kubernetes cluster name"
   type        = string
@@ -20,28 +8,10 @@ variable "DATABASE_CLUSTER_NAME" {
   type        = string
 }
 
-variable "CREATE_NEW_CONTAINER_REGISTRY" {
-  description = "Set to true if you want to create a new Container Registry"
-  type        = bool
-  default     = true
-}
-
 variable "CONTAINER_REGISTRY_NAME" {
   description = "Container Registry name"
   type        = string
 }
-variable "CREATE_LOKI_RELEASE" {
-  description = "Set to true if you want to create a new Helm release for Loki"
-  type        = bool
-  default     = true
-}
-
-variable "CREATE_PROMETHEUS_RELEASE" {
-  description = "Set to true if you want to create a new Helm release for Prometheus"
-  type        = bool
-  default     = true
-}
-
 
 variable "DIGITALOCEAN_ACCESS_TOKEN" {}
 terraform {
@@ -61,14 +31,8 @@ provider "digitalocean" {
   token = var.DIGITALOCEAN_ACCESS_TOKEN
 }
 
-data "digitalocean_kubernetes_cluster" "existing_kubernetes_cluster" {
-  count = var.CREATE_NEW_KUBERNETES_CLUSTER ? 0 : 1
-  name  = var.KUBERNETES_CLUSTER_NAME
-}
-
 resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   depends_on = [ digitalocean_container_registry.container-registry, digitalocean_database_cluster.database-cluster ]
-  count = var.CREATE_NEW_KUBERNETES_CLUSTER ? 1 : 0
   name  = var.KUBERNETES_CLUSTER_NAME
   region  = "ams3"
   version = "1.29.1-do.0"
@@ -85,29 +49,16 @@ resource "digitalocean_kubernetes_cluster" "kubernetes-api-cluster" {
   tags = ["api"]
 }
 
-data "digitalocean_database_cluster" "existing_database_cluster" {
-  count = var.CREATE_NEW_DATABASE_CLUSTER ? 0 : 1
-  name  = var.DATABASE_CLUSTER_NAME
-}
-
 resource "digitalocean_database_cluster" "database-cluster" {
-  count = var.CREATE_NEW_DATABASE_CLUSTER ? 1 : 0
   name           = var.DATABASE_CLUSTER_NAME
   engine         = "pg"
   version        = "15"
   size           = "db-s-1vcpu-1gb"
   region         = "ams3"
-  node_count     = var.CREATE_NEW_DATABASE_CLUSTER ? 1 : 0
   tags       	 = ["api"]
 }
 
-data "digitalocean_container_registry" "existing_registry" {
-  count = var.CREATE_NEW_CONTAINER_REGISTRY ? 0 : 1
-  name  = var.CONTAINER_REGISTRY_NAME
-}
-
 resource "digitalocean_container_registry" "container-registry" {
-  count = var.CREATE_NEW_CONTAINER_REGISTRY ? 1 : 0
   name  = var.CONTAINER_REGISTRY_NAME
   region = "ams3"
   subscription_tier_slug = "basic"
@@ -156,9 +107,6 @@ resource "helm_release" "loki" {
     name  = "grafana.adminPassword"
     value = "admin_password"  # Replace with your desired admin password
   }
-  
-  count = var.CREATE_LOKI_RELEASE ? 1 : 0
-}
 
 # Prometheus Helm release configuration
 resource "helm_release" "prometheus" {
@@ -192,15 +140,12 @@ resource "helm_release" "prometheus" {
     value = "false" # If you already have a Grafana instance via the Loki-stack, unless you want a separate one
   }
   # Add more configurations as needed
-
-  count = var.CREATE_PROMETHEUS_RELEASE ? 1 : 0
 }
 
 resource "kubernetes_config_map" "grafana-dashboards-custom" {
   metadata {
     name      = "grafana-dashboard-custom"
 
- 
     labels = {
       grafana_dashboard = 1
     }
@@ -213,5 +158,4 @@ resource "kubernetes_config_map" "grafana-dashboards-custom" {
   data = {
     "monitoring-app.json" = file("${path.module}/dashboard/monitoring-app.json"),
   }
-  
 }
