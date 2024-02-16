@@ -1,0 +1,103 @@
+publisher|series|size|comic book|issue number|release date|number of pages|price|main character|cover type
+marvel|the amazing spider-man|3|the web begins|1|2023-01-15|32|$3.99|spider-man|softcover
+marvel|the amazing spider-man|3|arachnid's awakening|2|2023-02-15|32|$3.99|spider-man|softcover
+marvel|the amazing spider-man|3|the sinister six strikes|3|2023-03-15|32|$3.99|spider-man|softcover
+marvel|x-men: mutant genesis|3|dawn of the mutants|1|2023-01-10|28|$2.99|x-men|softcover
+marvel|x-men: mutant genesis|3|rise of the brotherhood|2|2023-02-10|28|$2.99|x-men|softcover
+marvel|x-men: mutant genesis|3|dark phoenix saga|3|2023-03-10|28|$2.99|x-men|softcover
+marvel|avengers assemble|3|the avengers initiative|1|2023-01-20|30|$4.50|avengers|softcover
+marvel|avengers assemble|3|infinity gauntlet|2|2023-02-20|30|$4.50|avengers|softcover
+marvel|avengers assemble|3|secret wars|3|2023-03-20|30|$4.50|avengers|softcover
+marvel|iron man: armored adventures|3|iron man unleashed|1|2023-01-05|32|$3.99|iron man|softcover
+marvel|iron man: armored adventures|3|war machine chronicles|2|2023-02-05|32|$3.99|iron man|softcover
+marvel|iron man: armored adventures|3|stark industries under siege|3|2023-03-05|32|$3.99|iron man|softcover
+marvel|thor: god of thunder|3|thunderstruck|1|2023-01-25|28|$2.99|thor|softcover
+marvel|thor: god of thunder|3|ragnarok's fury|2|2023-02-25|28|$2.99|thor|softcover
+marvel|thor: god of thunder|3|the mighty mjolnir|3|2023-03-25|28|$2.99|thor|softcover
+marvel|black widow: deadly origin|3|red room redemption|1|2023-01-12|32|$3.99|black widow|softcover
+marvel|black widow: deadly origin|3|the widow's gambit|2|2023-02-12|32|$3.99|black widow|softcover
+marvel|black widow: deadly origin|3|assassin's legacy|3|2023-03-12|32|$3.99|black widow|softcover
+marvel|captain america: sentinel of liberty|3|the super soldier serum|1|2023-01-18|30|$4.25|captain america|softcover
+marvel|captain america: sentinel of liberty|3|winter soldier's wrath|2|2023-02-18|30|$4.25|captain america|softcover
+marvel|captain america: sentinel of liberty|3|the red skull rises|3|2023-03-18|30|$4.25|captain america|softcover
+marvel|hulk: smash and grab|3|gamma radiation rampage|1|2023-01-30|28|$3.50|hulk|softcover
+marvel|hulk: smash and grab|3|planet hulk|2|2023-02-28|28|$3.50|hulk|softcover
+marvel|hulk: smash and grab|3|world war hulk|3|2023-03-30|28|$3.50|hulk|softcover
+marvel|guardians of the galaxy: cosmic chronicles|3|star-lord's odyssey|1|2023-01-24|32|$3.75|guardians of the galaxy|softcover
+marvel|guardians of the galaxy: cosmic chronicles|3|rocket and groot's space heist|2|2023-02-24|32|$3.75|guardians of the galaxy|softcover
+marvel|guardians of the galaxy: cosmic chronicles|3|drax's vengeance|3|2023-03-24|32|$3.75|guardians of the galaxy|softcover
+marvel|daredevil: the man without fear|3|the devil's redemption|1|2023-01-28|28|$3.25|daredevil|softcover
+marvel|daredevil: the man without fear|3|elektra's return|2|2023-02-28|28|$3.25|daredevil|softcover
+marvel|daredevil: the man without fear|3|kingpin's last stand|3|2023-03-28|28|$3.25|daredevil|softcover
+marvel|fantastic four: future foundation|3|reed richards' inventions|1|2023-01-22|30|$4.00|fantastic four|softcover
+marvel|fantastic four: future foundation|3|invisible woman's secret|2|2023-02-22|30|$4.00|fantastic four|softcover
+marvel|fantastic four: future foundation|3|the thing's battle cry|3|2023-03-22|30|$4.00|fantastic four|softcover
+marvel|wolverine: weapon x|3|logan's origins|1|2023-01-15|32|$3.99|wolverine|softcover
+marvel|wolverine: weapon x|3|x-23's quest|2|2023-02-15|32|$3.99|wolverine|softcover
+marvel|wolverine: weapon x|3|sabretooth's revenge|3|2023-03-15|32|$3.99|wolverine|softcover
+marvel|doctor strange: mystic arts|3|sorcerer supreme's apprentice|1|2023-01-10|28|$2.99|doctor strange|softcover
+marvel|doctor strange: mystic arts|3|the multiverse menace|2|2023-02-10|28|$2.99|doctor strange|softcover
+marvel|doctor strange: mystic arts|3|dark dimensions unleashed|3|2023-03-10|28|$2.99|doctor strange|softcover
+marvel|ms. marvel: kamala's journey|3|inhuman inception|1|2023-01-20|30|$4.50|ms. marvel|softcover
+marvel|ms. marvel: kamala's journey|3|embiggened adventures|2|2023-02-20|30|$4.50|ms. marvel|softcover
+marvel|ms. marvel: kamala's journey|3|binary transformation|3|2023-03-20|30|$4.50|ms. marvel|softcover
+dc comics|batman: the dark knight|3|the caped crusader returns|1|2023-01-10|32|$3.99|batman|softcover
+dc comics|batman: the dark knight|3|joker's last laugh|2|2023-02-10|32|$3.99|batman|softcover
+dc comics|batman: the dark knight|3|bane's reign of terror|3|2023-03-10|32|$3.99|batman|softcover
+dc comics|superman: man of steel|3|krypton's last hope|1|2023-01-15|28|$2.99|superman|softcover
+dc comics|superman: man of steel|3|lex luthor's machinations|2|2023-02-15|28|$2.99|superman|softcover
+dc comics|superman: man of steel|3|doomsday's rampage|3|2023-03-15|28|$2.99|superman|softcover
+dc comics|wonder woman: princess of themyscira|3|the amazonian warrior|1|2023-01-20|30|$4.50|wonder woman|softcover
+dc comics|wonder woman: princess of themyscira|3|ares' wrath|2|2023-02-20|30|$4.50|wonder woman|softcover
+dc comics|wonder woman: princess of themyscira|3|cheetah's revenge|3|2023-03-20|30|$4.50|wonder woman|softcover
+dc comics|the flash: speed force|3|barry allen's return|1|2023-01-05|32|$3.99|the flash|softcover
+dc comics|the flash: speed force|3|reverse flash's scheme|2|2023-02-05|32|$3.99|the flash|softcover
+dc comics|the flash: speed force|3|speedster showdown|3|2023-03-05|32|$3.99|the flash|softcover
+dc comics|aquaman: king of atlantis|3|ocean's guardian|1|2023-01-25|28|$2.99|aquaman|softcover
+dc comics|aquaman: king of atlantis|3|black manta's revenge|2|2023-02-25|28|$2.99|aquaman|softcover
+dc comics|aquaman: king of atlantis|3|the trench menace|3|2023-03-25|28|$2.99|aquaman|softcover
+dc comics|green lantern: emerald corps|3|hal jordan's return|1|2023-01-12|32|$3.99|green lantern|softcover
+dc comics|green lantern: emerald corps|3|sinestro's rebellion|2|2023-02-12|32|$3.99|green lantern|softcover
+dc comics|green lantern: emerald corps|3|star sapphire's love|3|2023-03-12|32|$3.99|green lantern|softcover
+dc comics|batgirl: gotham's guardian|3|barbara gordon's journey|1|2023-01-18|30|$4.25|batgirl|softcover
+dc comics|batgirl: gotham's guardian|3|the joker's daughter|2|2023-02-18|30|$4.25|batgirl|softcover
+dc comics|batgirl: gotham's guardian|3|penguin's plot|3|2023-03-18|30|$4.25|batgirl|softcover
+dc comics|green arrow: the emerald archer|3|oliver queen's redemption|1|2023-01-30|28|$3.50|green arrow|softcover
+dc comics|green arrow: the emerald archer|3|deathstroke's duel|2|2023-02-28|28|$3.50|green arrow|softcover
+dc comics|green arrow: the emerald archer|3|the league of shadows|3|2023-03-30|28|$3.50|green arrow|softcover
+dc comics|teen titans: titans together|3|robin's leadership|1|2023-01-24|32|$3.75|teen titans|softcover
+dc comics|teen titans: titans together|3|beast boy's transformation|2|2023-02-24|32|$3.75|teen titans|softcover
+dc comics|teen titans: titans together|3|raven's dark past|3|2023-03-24|32|$3.75|teen titans|softcover
+dark horse comics|hellboy: seed of destruction|3|the right hand of doom|1|2023-01-15|32|$3.99|hellboy|softcover
+dark horse comics|hellboy: seed of destruction|3|wake the devil|2|2023-02-15|32|$3.99|hellboy|softcover
+dark horse comics|hellboy: seed of destruction|3|the chained coffin|3|2023-03-15|32|$3.99|hellboy|softcover
+dark horse comics|b.p.r.d.: plague of frogs|3|rise of the frogs|1|2023-01-10|28|$2.99|b.p.r.d. agents|softcover
+dark horse comics|b.p.r.d.: plague of frogs|3|the black flame rises|2|2023-02-10|28|$2.99|b.p.r.d. agents|softcover
+dark horse comics|b.p.r.d.: plague of frogs|3|the war on frogs|3|2023-03-10|28|$2.99|b.p.r.d. agents|softcover
+dark horse comics|sin city|3|the hard goodbye|1|2023-01-20|30|$4.50|marv|softcover
+dark horse comics|sin city|3|a dame to kill for|2|2023-02-20|30|$4.50|dwight mccarthy|softcover
+dark horse comics|sin city|3|the big fat kill|3|2023-03-20|30|$4.50|dwight mccarthy|softcover
+dark horse comics|usagi yojimbo|3|the ronin|1|2023-01-05|32|$3.99|usagi yojimbo|softcover
+dark horse comics|usagi yojimbo|3|samurai adventure|2|2023-02-05|32|$3.99|usagi yojimbo|softcover
+dark horse comics|usagi yojimbo|3|bounty hunter's quest|3|2023-03-05|32|$3.99|usagi yojimbo|softcover
+dark horse comics|the goon|3|nothin' but misery|1|2023-01-25|28|$2.99|the goon|softcover
+dark horse comics|the goon|3|chinatown|2|2023-02-25|28|$2.99|the goon|softcover
+dark horse comics|the goon|3|once upon a hard time|3|2023-03-25|28|$2.99|the goon|softcover
+dark horse comics|black hammer|3|secret origins|1|2023-01-12|32|$3.99|black hammer|softcover
+dark horse comics|black hammer|3|age of doom|2|2023-02-12|32|$3.99|black hammer|softcover
+dark horse comics|black hammer|3|streets of spiral|3|2023-03-12|32|$3.99|black hammer|softcover
+image comics|spawn|3|the al simmons saga|1|2023-01-18|30|$4.25|spawn|softcover
+image comics|spawn|3|hellspawn redemption|2|2023-02-18|30|$4.25|spawn|softcover
+image comics|spawn|3|angelic warfare|3|2023-03-18|30|$4.25|spawn|softcover
+image comics|the walking dead|3|days gone by|1|2023-01-30|28|$3.50|rick grimes|softcover
+image comics|the walking dead|3|made to suffer|2|2023-02-28|28|$3.50|rick grimes|softcover
+image comics|the walking dead|3|whispers into screams|3|2023-03-30|28|$3.50|rick grimes|softcover
+image comics|invincible|3|family matters|1|2023-01-24|32|$3.75|invincible|softcover
+image comics|invincible|3|viltrumite war|2|2023-02-24|32|$3.75|invincible|softcover
+image comics|invincible|3|the end of all things|3|2023-03-24|32|$3.75|invincible|softcover
+image comics|saga|3|volume 1|1|2023-01-28|28|$3.25|alana|softcover
+image comics|saga|3|the war for phang|2|2023-02-28|28|$3.25|alana|softcover
+image comics|saga|3|the last revolution|3|2023-03-28|28|$3.25|alana|softcover
+image comics|monstress|3|awakening|1|2023-01-22|30|$4.00|maika halfwolf|softcover
+image comics|monstress|3|the blood|2|2023-02-22|30|$4.00|maika halfwolf|softcover
+image comics|monstress|3|haven|3|2023-03-22|30|$4.00|maika halfwolf|softcover
