@@ -20,7 +20,7 @@ def test_status_code():
 
 def test_response():
     response = client.get("/")
-    assert response.json() == "NOVI - Comic books API"
+    assert response.json() == "Dit is de demo update"
 
 def test_response_schema_500():
     response = client.get("/comics/schema-check")
