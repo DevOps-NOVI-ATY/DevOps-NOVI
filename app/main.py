@@ -24,4 +24,4 @@ async def validation_exception_handler(request: Request, exc: ResponseValidation
 #GET request to root endpoint
 @app.get("/")
 async def root():
-    return "NOVI - Comic books API"
+    return "Dit is de demo update"
