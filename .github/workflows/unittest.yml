@@ -9,8 +9,8 @@ on:
 env:
   DATABASE_URL: postgresql://user-name:strong-password@localhost:5432/api
 jobs:
-  integration_tests:
-    name: Integration tests
+  unit_tests:
+    name: Unit tests
     runs-on: ubuntu-latest
 
     services:
